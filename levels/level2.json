@@ -1,6 +1,6 @@
 {
   "enemies": [
-	{"scene": "res://scenes/enemy.tscn"},
-	{"scene": "res://scenes/enemy.tscn"},
+	{"scene": "res://enemies/casio.tscn"},
+	{"scene": "res://enemies/casio.tscn"},
   ]
 }

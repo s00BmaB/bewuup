@@ -26,11 +26,8 @@ func _on_button_pressed():
 	var combat_scene = load("res://scenes/comabt.tscn").instantiate()
 	get_tree().root.add_child(combat_scene)
 	
-	# wywołujemy funkcję ładowania poziomu w Combat.gd
-	if combat_scene.has_method("load_level"):
-		combat_scene.load_level(json_file)
+	get_tree().root.add_child(combat_scene)
 	
-	# ukrywamy lub usuwamy mapę
 	get_tree().current_scene.queue_free()
 	
 func _on_button_released():
