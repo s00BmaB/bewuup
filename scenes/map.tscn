@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://drrrcqyj0rflf"]
+[gd_scene load_steps=4 format=3 uid="uid://drrrcqyj0rflf"]
 
 [ext_resource type="Script" uid="uid://chfsk1g0ujoif" path="res://scenes/map.gd" id="1_paxxb"]
 [ext_resource type="PackedScene" uid="uid://clvls04lh5ko5" path="res://scenes/map_node.tscn" id="2_gldc4"]
+[ext_resource type="PackedScene" uid="uid://denebhmiatmje" path="res://scenes/enemy.tscn" id="3_gldc4"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_paxxb")
@@ -32,3 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.61683375, 0.4178, 0.20944148, 1)
+
+[node name="Enemy" parent="." instance=ExtResource("3_gldc4")]
+position = Vector2(861, 208.00002)
+scale = Vector2(10, 10)
