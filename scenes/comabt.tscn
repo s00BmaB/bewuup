@@ -21,6 +21,8 @@ anchors_preset = 0
 offset_right = 84.0
 offset_bottom = 106.0
 script = ExtResource("2_br7ac")
+card_face_up = false
+enable_drop_zone = false
 metadata/_custom_type_script = "uid://6ams8uvg43gu"
 
 [node name="ColorRect" type="ColorRect" parent="CardManager/Deck"]
@@ -34,6 +36,8 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_br7ac")
+card_face_up = false
+enable_drop_zone = false
 metadata/_custom_type_script = "uid://6ams8uvg43gu"
 
 [node name="ColorRect" type="ColorRect" parent="CardManager/Discard"]
