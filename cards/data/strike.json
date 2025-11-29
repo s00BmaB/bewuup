@@ -1,6 +1,6 @@
 {
 	"name": "strike",
-	"front_image": "cardBack_green1.png",
+	"front_image": "cardBack_green3.png",
 	"type" : "attack",
 	"cost" : 5,
 	"value" : 10,

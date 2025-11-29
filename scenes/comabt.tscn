@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://c4oyancw0pbb3"]
 
-[ext_resource type="Script" uid="uid://clqgq1n7v0ar" path="res://addons/card-framework/card_manager.gd" id="1_igot4"]
 [ext_resource type="Script" uid="uid://co2x16ftx83tu" path="res://scripts/comabt.gd" id="1_k8wyi"]
+[ext_resource type="Script" uid="uid://clqgq1n7v0ar" path="res://addons/card-framework/card_manager.gd" id="2_a1y2d"]
 [ext_resource type="Script" uid="uid://cuwd8x3gi2mfo" path="res://scripts/deck.gd" id="2_br7ac"]
-[ext_resource type="PackedScene" uid="uid://bet3qfdmulo3x" path="res://scenes/card_factor.tscn" id="3_a1y2d"]
 [ext_resource type="Script" uid="uid://bygai6qjvhf2t" path="res://scripts/discard.gd" id="3_br7ac"]
+[ext_resource type="PackedScene" uid="uid://b3h00wfdjinl3" path="res://scenes/my_card_factory.tscn" id="3_csq56"]
 [ext_resource type="Script" uid="uid://cumfw1t48rxjl" path="res://scripts/hand.gd" id="4_br7ac"]
 [ext_resource type="Script" uid="uid://dfb2mwv7xrc6d" path="res://scripts/end_turn_button.gd" id="7_csq56"]
 
@@ -16,9 +16,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_igot4")
-card_factory_scene = ExtResource("3_a1y2d")
-debug_mode = true
+script = ExtResource("2_a1y2d")
+card_factory_scene = ExtResource("3_csq56")
 metadata/_custom_type_script = "uid://clqgq1n7v0ar"
 
 [node name="Deck" type="Control" parent="CardManager"]

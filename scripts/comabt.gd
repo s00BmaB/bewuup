@@ -2,6 +2,9 @@ extends Node2D
 
 @onready var enemy_container := $EnemyContainer
 @onready var player_spawn := $PlayerSpawn
+@onready var card_manager = $CardManager
+@onready var deck = $CardManager/Deck
+@onready var hand = $CardManager/Hand
 
 var level_data = {}  # tu załadujemy dane z JSON
 var level_file: String = ""
@@ -11,6 +14,7 @@ func _ready():
 		load_level(level_file)
 		spawn_player()
 		spawn_enemies()
+	setup_game()
 
 func load_level(path: String):
 	if !FileAccess.file_exists(path):
@@ -62,7 +66,21 @@ func spawn_player():
 	# HP z singletona
 	player_scene.hp = PlayerData.hp
 
+func create_deck():
+	for name in PlayerData.deck:
+		var card = card_manager.card_factory.create_card(name, deck)
+		print(name)
+		deck.add_card(card)
 
+func deal_cards_to_hand(count: int):
+	for i in count:
+		if deck.get_card_count() > 0:
+			var card = deck.get_top_cards(1).front()
+			hand.move_cards([card])
+
+func setup_game():
+	create_deck()
+	deal_cards_to_hand(5)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

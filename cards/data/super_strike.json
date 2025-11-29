@@ -1,6 +1,6 @@
 {
 	"name": "super strike",
-	"front_image": "cardBack_green1.png",
+	"front_image": "cardBack_green2.png",
 	"type" : "attack",
 	"cost" : 15,
 	"value" : 40,
