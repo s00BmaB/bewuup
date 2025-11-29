@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbngru43tuy2n"]
+[gd_scene load_steps=6 format=3 uid="uid://c4oyancw0pbb3"]
 
 [ext_resource type="Script" uid="uid://clqgq1n7v0ar" path="res://addons/card-framework/card_manager.gd" id="1_igot4"]
-[ext_resource type="Script" uid="uid://cuwd8x3gi2mfo" path="res://scenes/deck.gd" id="2_br7ac"]
-[ext_resource type="Script" uid="uid://bygai6qjvhf2t" path="res://scenes/discard.gd" id="3_br7ac"]
-[ext_resource type="Script" uid="uid://cumfw1t48rxjl" path="res://scenes/hand.gd" id="4_br7ac"]
+[ext_resource type="Script" uid="uid://co2x16ftx83tu" path="res://scenes/comabt.gd" id="1_k8wyi"]
+[ext_resource type="Script" path="res://scenes/deck.gd" id="2_br7ac"]
+[ext_resource type="Script" path="res://scenes/discard.gd" id="3_br7ac"]
+[ext_resource type="Script" path="res://scenes/hand.gd" id="4_br7ac"]
 
-[node name="Node2D" type="Node2D"]
+[node name="CombatScene" type="Node2D"]
+script = ExtResource("1_k8wyi")
 
 [node name="CardManager" type="Control" parent="."]
 layout_mode = 3
@@ -53,3 +55,7 @@ offset_right = 1024.0
 offset_bottom = 897.0
 script = ExtResource("4_br7ac")
 metadata/_custom_type_script = "uid://dj46jo3lfbclo"
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]

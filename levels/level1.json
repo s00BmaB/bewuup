@@ -1,0 +1,6 @@
+{
+  "enemies": [
+	{"scene": "res://scenes/enemy.tscn", "position": [300, 200]},
+	{"scene": "res://scenes/enemy.tscn", "position": [500, 200]}
+  ]
+}
