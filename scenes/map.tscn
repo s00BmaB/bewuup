@@ -11,19 +11,19 @@ script = ExtResource("1_paxxb")
 width = 4.0
 default_color = Color(0, 0, 0, 1)
 
-[node name="MapNode1" parent="." instance=ExtResource("2_gldc4")]
+[node name="Level1" parent="." instance=ExtResource("2_gldc4")]
 position = Vector2(119, 124)
 
-[node name="MapNode2" parent="." instance=ExtResource("2_gldc4")]
+[node name="Level2" parent="." instance=ExtResource("2_gldc4")]
 position = Vector2(224, 342)
 
-[node name="MapNode3" parent="." instance=ExtResource("2_gldc4")]
+[node name="Level3" parent="." instance=ExtResource("2_gldc4")]
 position = Vector2(357, 138)
 
-[node name="MapNode4" parent="." instance=ExtResource("2_gldc4")]
+[node name="Level4" parent="." instance=ExtResource("2_gldc4")]
 position = Vector2(498, 285)
 
-[node name="MapNode5" parent="." instance=ExtResource("2_gldc4")]
+[node name="Level5" parent="." instance=ExtResource("2_gldc4")]
 position = Vector2(679, 190)
 
 [node name="ColorRect" type="ColorRect" parent="."]

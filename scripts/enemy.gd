@@ -13,6 +13,7 @@ func _ready():
 	
 	$Hitbox.mouse_entered.connect(_on_mouse_enter)
 	$Hitbox.mouse_exited.connect(_on_mouse_exit)
+	
 
 func take_damage(amount: int):
 	hp -= amount

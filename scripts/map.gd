@@ -2,11 +2,7 @@ extends Node2D
 
 @onready var connections := $Connections
 @onready var nodes := [
-	$MapNode1,
-	$MapNode2,
-	$MapNode3,
-	$MapNode4,
-	$MapNode5
+	$Level1,$Level2,$Level3,$Level4,$Level5
 ]
 
 func _ready():
