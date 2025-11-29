@@ -5,12 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://dk6rb7lhv1ef6" path="res://addons/card-framework/pile.tscn" id="2_xkfcc"]
 [ext_resource type="PackedScene" uid="uid://diap3gdfbqvjv" path="res://example1/my_card_factory.tscn" id="3_l4bd6"]
 [ext_resource type="PackedScene" uid="uid://bkpjlq7ggckg6" path="res://addons/card-framework/hand.tscn" id="3_xp5g3"]
-[ext_resource type="Texture2D" uid="uid://cv6ecvmkml3ok" path="res://example1/assets/images/cards/cardBack_green1.png" id="5_kl5wo"]
-[ext_resource type="Texture2D" uid="uid://dacwc4ros7wiv" path="res://example1/assets/images/cards/cardBack_green2.png" id="6_u8c1b"]
-[ext_resource type="Texture2D" uid="uid://c8mcrcwmgi0oc" path="res://example1/assets/images/cards/cardBack_green3.png" id="8_cv7sm"]
-[ext_resource type="Texture2D" uid="uid://cpkjxmuv1ho4b" path="res://example1/assets/images/cards/cardBack_red2.png" id="8_nwj6x"]
-[ext_resource type="Texture2D" uid="uid://bdf2cukmms3nb" path="res://example1/assets/images/cards/cardBack_red3.png" id="10_tthv0"]
-[ext_resource type="Texture2D" uid="uid://b1jy1scbarbg5" path="res://example1/assets/images/cards/cardBack_red4.png" id="11_5najx"]
+[ext_resource type="Texture2D" uid="uid://cv6ecvmkml3ok" path="res://cards/images/cardBack_green1.png" id="5_kl5wo"]
+[ext_resource type="Texture2D" uid="uid://dacwc4ros7wiv" path="res://cards/images/cardBack_green2.png" id="6_u8c1b"]
+[ext_resource type="Texture2D" uid="uid://c8mcrcwmgi0oc" path="res://cards/images/cardBack_green3.png" id="8_cv7sm"]
+[ext_resource type="Texture2D" uid="uid://cpkjxmuv1ho4b" path="res://cards/images/cardBack_red2.png" id="8_nwj6x"]
+[ext_resource type="Texture2D" uid="uid://bdf2cukmms3nb" path="res://cards/images/cardBack_red3.png" id="10_tthv0"]
+[ext_resource type="Texture2D" uid="uid://b1jy1scbarbg5" path="res://cards/images/cardBack_red4.png" id="11_5najx"]
 
 [node name="Example1" type="Node"]
 script = ExtResource("1_2r7vq")

@@ -14,6 +14,7 @@ config/name="bewuup"
 run/main_scene="uid://dogcvxbc1w03"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+<<<<<<<HEADrun/main_scene="uid://dogcvxbc1w03"
 
 [autoload]
 

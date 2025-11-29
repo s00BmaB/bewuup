@@ -1,0 +1,7 @@
+{
+	"name": "defend",
+	"front_image": "cardBack_green1.png",
+	"type" : "defend",
+	"cost" : 5,
+	"value" : 9,
+}

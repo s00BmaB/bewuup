@@ -1,0 +1,7 @@
+{
+	"name": "super strike",
+	"front_image": "cardBack_green1.png",
+	"type" : "attack",
+	"cost" : 15,
+	"value" : 40,
+}

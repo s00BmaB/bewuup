@@ -4,11 +4,13 @@ extends Node2D
 @onready var player_spawn := $PlayerSpawn
 
 var level_data = {}  # tu załadujemy dane z JSON
+var level_file: String = ""
 
 func _ready():
-	load_level("res://levels/level1.json")
-	spawn_player()
-	spawn_enemies()
+	if level_file != "":
+		load_level(level_file)
+		spawn_player()
+		spawn_enemies()
 
 func load_level(path: String):
 	if !FileAccess.file_exists(path):
@@ -28,8 +30,6 @@ func load_level(path: String):
 		return
 
 	level_data = level_dict
-
-	
 
 func spawn_enemies():
 	var screen_size = get_viewport_rect().size

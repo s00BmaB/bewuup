@@ -5,6 +5,9 @@ var hp: int = 100
 var max_hp: int = 100
 var gold: int = 0
 
+@export var starting_strikes : int = 5
+@export var starting_defends : int = 5
+
 # listy, słowniki, itp.
 var deck: Array = []
 var relics: Array = []
@@ -12,6 +15,15 @@ var inventory: Array = []
 
 # dane o mapie, pozycji, itp.
 var current_map_node: String = ""
+
+func _ready():
+	for i in starting_strikes:
+		deck.append("strike")
+	for i in starting_defends:
+		deck.append("defend")
+	deck.append("super_strike")
+	deck.append("look_into_timelines")
+	pass
 
 # funkcje pomocnicze
 func reset():
