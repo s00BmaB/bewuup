@@ -33,9 +33,9 @@ Create your main game scene with this hierarchy:
 ```
 Main (Node2D)
 └── CardManager (CardManager)
-    ├── Deck (Pile)
-    ├── PlayerHand (Hand) 
-    └── DiscardPile (Pile)
+	├── Deck (Pile)
+	├── PlayerHand (Hand) 
+	└── DiscardPile (Pile)
 ```
 
 ### Step 2: CardManager Configuration
@@ -72,7 +72,7 @@ res://
 │   ├── images/          # Card artwork
 │   └── data/           # JSON card definitions
 └── scenes/
-    └── main.tscn       # Your main scene
+	└── main.tscn       # Your main scene
 ```
 
 ### Step 4: Card Assets Preparation
@@ -89,11 +89,11 @@ Create JSON files in `res://cards/data/` for each card:
 **Example: `club_2.json`**
 ```json
 {
-    "name": "club_2",
-    "front_image": "cardClubs2.png",
-    "suit": "club",
-    "value": "2",
-    "color": "black"
+	"name": "club_2",
+	"front_image": "cardClubs2.png",
+	"suit": "club",
+	"value": "2",
+	"color": "black"
 }
 ```
 

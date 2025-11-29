@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://8jk3w8iwnt33"]
+
+[ext_resource type="Script" uid="uid://dtpomjc0u41g" path="res://addons/card-framework/card.gd" id="1_24p6x"]
+[ext_resource type="Texture2D" uid="uid://dq3h7osm6ogro" path="res://icon.svg" id="2_vmnfh"]
+[ext_resource type="Texture2D" uid="uid://cnoh66t2grifo" path="res://cards/images/back1.png" id="3_v1chu"]
+
+[node name="Card" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_24p6x")
+card_name = "default"
+front_image = ExtResource("2_vmnfh")
+back_image = ExtResource("3_v1chu")
+metadata/_custom_type_script = "uid://dtpomjc0u41g"

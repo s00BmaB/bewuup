@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbngru43tuy2n"]
+
+[ext_resource type="Script" uid="uid://clqgq1n7v0ar" path="res://addons/card-framework/card_manager.gd" id="1_igot4"]
+[ext_resource type="Script" uid="uid://cuwd8x3gi2mfo" path="res://scenes/deck.gd" id="2_br7ac"]
+[ext_resource type="Script" uid="uid://bygai6qjvhf2t" path="res://scenes/discard.gd" id="3_br7ac"]
+[ext_resource type="Script" uid="uid://cumfw1t48rxjl" path="res://scenes/hand.gd" id="4_br7ac"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CardManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_igot4")
+debug_mode = true
+metadata/_custom_type_script = "uid://clqgq1n7v0ar"
+
+[node name="Deck" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_right = 84.0
+offset_bottom = 106.0
+script = ExtResource("2_br7ac")
+metadata/_custom_type_script = "uid://6ams8uvg43gu"
+
+[node name="ColorRect" type="ColorRect" parent="CardManager/Deck"]
+layout_mode = 0
+offset_right = 165.0
+offset_bottom = 231.0
+color = Color(1, 0.3372549, 1, 1)
+
+[node name="Discard" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_br7ac")
+metadata/_custom_type_script = "uid://6ams8uvg43gu"
+
+[node name="ColorRect" type="ColorRect" parent="CardManager/Discard"]
+layout_mode = 0
+offset_right = 165.0
+offset_bottom = 231.0
+
+[node name="Hand" type="Control" parent="CardManager"]
+anchors_preset = 0
+offset_left = 984.0
+offset_top = 857.0
+offset_right = 1024.0
+offset_bottom = 897.0
+script = ExtResource("4_br7ac")
+metadata/_custom_type_script = "uid://dj46jo3lfbclo"
