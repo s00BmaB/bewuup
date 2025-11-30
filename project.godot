@@ -30,6 +30,10 @@ window/size/mode=3
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/addons/simple_card_pile_ui/plugin.cfg", "res://addons/simple_card_pile_ui/plugin.cfg")
+
 [input]
 
 lewy_klik={

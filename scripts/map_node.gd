@@ -25,7 +25,7 @@ func _on_button_pressed():
 	PlayerData.current_map_node = json_file
 	
 	
-	get_tree().change_scene_to_file("res://scenes/comabt.tscn")
+	get_tree().change_scene_to_file("res://scenes/combat.tscn")
 	
 func _on_button_released():
 	color.color = Color.BLUE

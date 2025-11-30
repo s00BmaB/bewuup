@@ -1,0 +1,30 @@
+[
+  {
+	"nice_name": "Strike",
+	"texture_path": "res://assets/card_attack.png",
+	"backface_texture_path": "res://assets/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "attack",
+	"power": 10,
+	"cost": 5
+  },
+  {
+	"nice_name": "Defend",
+	"texture_path": "res://assets/card_block.png",
+	"backface_texture_path": "res://assets/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "defend",
+	"power": 9,
+	"cost": 5
+  },
+  {
+	"nice_name": "Look Into Timelines",
+	"texture_path": "res://assets/card_dice.png",
+	"backface_texture_path": "res://assets/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "draw",
+	"power": 3,
+	"cost": 15
+  }
+
+]
