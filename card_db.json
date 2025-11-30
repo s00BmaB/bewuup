@@ -5,7 +5,7 @@
 	"backface_texture_path": "res://cards/images/back1.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
-	"power": 10,
+	"value": 10,
 	"cost": 5
   },
   {
@@ -14,7 +14,7 @@
 	"backface_texture_path": "res://cards/images/back1.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "defend",
-	"power": 9,
+	"value": 9,
 	"cost": 5
   },
   {
@@ -23,12 +23,11 @@
 	"backface_texture_path": "res://cards/images/back1.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "draw",
-	"power": 3,
+	"value": 3,
 	"cost": 15
   },
   {
 	"nice_name": "Super Strike",
-	"front_image": "cardBack_green2.png",
 	"texture_path": "res://cards/images/cardBack_green2.png",
 	"backface_texture_path": "res://cards/images/back1.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",

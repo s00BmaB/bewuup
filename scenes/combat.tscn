@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4oyancw0pbb3"]
+[gd_scene load_steps=5 format=3 uid="uid://b7lgb5bq0ecq6"]
 
-[ext_resource type="Script" uid="uid://co2x16ftx83tu" path="res://scripts/combat.gd" id="1_k8wyi"]
-[ext_resource type="PackedScene" uid="uid://ccy3mr1stpq5x" path="res://scenes/Card.tscn" id="2_4l26h"]
+[ext_resource type="Script" path="res://scripts/combat.gd" id="1_k8wyi"]
+[ext_resource type="PackedScene" path="res://scenes/Card.tscn" id="2_4l26h"]
 [ext_resource type="Script" uid="uid://c6qprj5nyk6av" path="res://addons/simple_card_pile_ui/card_pile_ui.gd" id="3_aic3r"]
 [ext_resource type="Script" uid="uid://dfb2mwv7xrc6d" path="res://scripts/end_turn_button.gd" id="7_csq56"]
 
