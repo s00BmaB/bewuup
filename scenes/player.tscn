@@ -1,9 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2txogu3g4837"]
 
 [ext_resource type="Script" uid="uid://dh264v8hokyug" path="res://scripts/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://pests5ps3ade" path="res://assets/Player.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://b80ujcrn7pijj" path="res://assets/Player2.png" id="2_g2els"]
 
 [node name="Player" type="Node2D"]
+position = Vector2(598, 373)
 scale = Vector2(2, 2)
 script = ExtResource("1_3vyb7")
 
@@ -17,3 +18,4 @@ offset_left = -22.5
 offset_top = -121.0
 offset_right = 23.5
 offset_bottom = -94.0
+metadata/_edit_use_anchors_ = true

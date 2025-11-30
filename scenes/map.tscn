@@ -35,7 +35,10 @@ grow_vertical = 2
 color = Color(0.61683375, 0.4178, 0.20944148, 1)
 
 [node name="Enemy" parent="." instance=ExtResource("3_gldc4")]
+visible = false
 position = Vector2(1678, 790)
+max_time = 120
+current_time = 120
 
 [node name="ExitButton" type="Button" parent="."]
 offset_left = 934.0
