@@ -1,4 +1,4 @@
-extends Hand
+extends Node2D
 
 var screen_size
 

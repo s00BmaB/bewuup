@@ -2,39 +2,28 @@ extends Node2D
 
 @onready var enemy_container := $EnemyContainer
 @onready var player_spawn := $PlayerSpawn
-@onready var card_manager = $CardManager
-@onready var deck = $CardManager/Deck
-@onready var hand = $CardManager/Hand
 
 var level_data = {}  # tu załadujemy dane z JSON
 var level_file: String = ""
 
 func _ready():
-	if level_file != "":
-		load_level(level_file)
-		spawn_player()
-		spawn_enemies()
-	setup_game()
+	level_file = PlayerData.current_map_node
+	print(level_file)
+	load_level(level_file)
+	spawn_player()
+	spawn_enemies()
 
 func load_level(path: String):
 	if !FileAccess.file_exists(path):
-		push_error("Level file not found: %s" % path)
+		push_error("Plik nie istnieje: %s" % path)
 		return
 
 	var file = FileAccess.open(path, FileAccess.READ)
 	var json_text = file.get_as_text()
 	file.close()
 
-	# parse_string zwraca od razu Dictionary lub Array
-	var level_dict = JSON.parse_string(json_text)
-
-	# teraz level_dict["enemies"] zawiera listę przeciwników
-	if typeof(level_dict) != TYPE_DICTIONARY:
-		push_error("JSON did not return a Dictionary")
-		return
-
-	level_data = level_dict
-
+	level_data = JSON.parse_string(json_text)
+	
 func spawn_enemies():
 	var screen_size = get_viewport_rect().size
 	var enemy_count = min(level_data["enemies"].size(), 4)  # max 4
@@ -65,22 +54,10 @@ func spawn_player():
 
 	# HP z singletona
 	player_scene.hp = PlayerData.hp
+	
+func _on_button_back():
+	get_tree().change_scene_to_file("res://scenes/map.tscn")
 
-func create_deck():
-	for name in PlayerData.deck:
-		var card = card_manager.card_factory.create_card(name, deck)
-		print(name)
-		deck.add_card(card)
-
-func deal_cards_to_hand(count: int):
-	for i in count:
-		if deck.get_card_count() > 0:
-			var card = deck.get_top_cards(1).front()
-			hand.move_cards([card])
-
-func setup_game():
-	create_deck()
-	deal_cards_to_hand(5)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

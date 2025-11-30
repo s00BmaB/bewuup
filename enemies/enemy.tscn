@@ -13,7 +13,7 @@ position = Vector2(-2.3841858e-07, -2.9802322e-08)
 scale = Vector2(0.15625, 0.15624999)
 texture = ExtResource("2_md0e3")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="."]
 offset_right = 4.0
 offset_bottom = 27.0
 

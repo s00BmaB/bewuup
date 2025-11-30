@@ -1,4 +1,4 @@
-extends Pile
+extends Node2D
 
 var screen_size
 

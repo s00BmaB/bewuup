@@ -23,3 +23,6 @@ func draw_connections():
 		connections.add_point(a)
 		connections.add_point(b)
 		# Dodaj przerwę między liniami
+
+func _on_exit():
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn") 
