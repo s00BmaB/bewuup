@@ -1,7 +1,7 @@
 [
   {
 	"nice_name": "Strike",
-	"texture_path": "res://cards/images/card_attack.png",
+	"texture_path": "res://assets/Hammer.png",
 	"backface_texture_path": "res://assets/Rewers.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
@@ -10,7 +10,7 @@
   },
   {
 	"nice_name": "Defend",
-	"texture_path": "res://cards/images/card_block.png",
+	"texture_path": "res://assets/Defens.png",
 	"backface_texture_path": "res://assets/Rewers.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "defend",
@@ -19,7 +19,7 @@
   },
   {
 	"nice_name": "Look Into Timelines",
-	"texture_path": "res://cards/images/card_dice.png",
+	"texture_path": "res://assets/TakeCard.png",
 	"backface_texture_path": "res://assets/Rewers.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "draw",
@@ -28,7 +28,7 @@
   },
   {
 	"nice_name": "Super Strike",
-	"texture_path": "res://cards/images/cardBack_green2.png",
+	"texture_path": "res://assets/Ult.png",
 	"backface_texture_path": "res://assets/Rewers.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",

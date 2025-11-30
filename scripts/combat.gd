@@ -7,13 +7,13 @@ extends Node2D
 @export var time_damage: int = 10
 @export var hand_size: int = 5
 
-@export_file("*.tscn") var win_scene_path: String = "res://scenes/win_screen.tscn" 
-@export_file("*.tscn") var game_over_scene_path: String = "res://scenes/game_over.tscn" 
+@export_file("*.tscn") var win_scene_path: String = "res://scenes/win_screen.tscn"
+@export_file("*.tscn") var game_over_scene_path: String = "res://scenes/game_over.tscn"
 
 var level_data = {}
 var level_file: String = ""
 var current_player: Node2D = null
-var is_game_over: bool = false
+var is_game_over: bool = false 
 
 func _ready():
 	setup_card_ui_layout()
@@ -34,6 +34,67 @@ func _ready():
 	
 	start_turn()
 
+# --- WARUNKI KOŃCOWE ---
+
+func _on_player_died():
+	print("DEBUG: Otrzymano sygnał śmierci gracza.")
+	if is_game_over: return
+	is_game_over = true
+	
+	print("PRZEGRANA! Przełączam scenę...")
+	
+	# Używamy call_deferred dla 100% pewności, że zmiana nastąpi w bezpiecznym momencie
+	call_deferred("_change_scene_to_game_over")
+
+func _change_scene_to_game_over():
+	if game_over_scene_path != "":
+		get_tree().change_scene_to_file(game_over_scene_path)
+	else:
+		print("Błąd: Brak ścieżki Game Over, wracam do menu.")
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _on_enemy_died():
+	# Czekamy klatkę (call_deferred), aby upewnić się, że queue_free() zdążyło oznaczyć wroga
+	call_deferred("_check_all_enemies_dead")
+
+func _check_all_enemies_dead():
+	if is_game_over: return
+	
+	var living_enemies = 0
+	for child in enemy_container.get_children():
+		# Sprawdzamy czy wróg nie jest już "martwy" (zakolejkowany do usunięcia)
+		if not child.is_queued_for_deletion():
+			living_enemies += 1
+	
+	print("DEBUG: Sprawdzanie wrogów. Pozostało: ", living_enemies)
+	
+	if living_enemies == 0:
+		game_won()
+
+func game_won():
+	print("DEBUG: Wszystkie wrogi pokonane.")
+	if is_game_over: return
+	is_game_over = true
+	
+	print("WYGRANA! Zapisywanie i zmiana sceny...")
+	
+	# Logika zapisu
+	if level_file not in PlayerData.completed_levels:
+		PlayerData.completed_levels.append(level_file)
+	PlayerData.save()
+	
+	# Zmiana sceny w trybie deferred
+	call_deferred("_change_scene_to_win")
+
+func _change_scene_to_win():
+	if win_scene_path != "":
+		get_tree().change_scene_to_file(win_scene_path)
+	else:
+		print("Błąd: Brak ścieżki Win Screen, wracam na mapę.")
+		get_tree().change_scene_to_file("res://scenes/map.tscn")
+
+# --- SPAWNOWANIE ---
+
 func spawn_player():
 	var screen_size = get_viewport_rect().size
 	var player_scene = load("res://scenes/player.tscn").instantiate()
@@ -45,7 +106,9 @@ func spawn_player():
 	
 	current_player = player_scene
 	
-	current_player.connect("died", _on_player_died)
+	# Podłączamy sygnał śmierci
+	if !current_player.is_connected("died", _on_player_died):
+		current_player.connect("died", _on_player_died)
 	
 	create_player_dropzone(player_scene)
 
@@ -64,114 +127,35 @@ func spawn_enemies():
 		var x = start_x + i * spacing
 		var y = screen_size.y * 0.5
 		enemy_scene.position = Vector2(x, y)
-
-		enemy_scene.connect("died", _on_enemy_died)
+		
+		# Podłączamy sygnał śmierci
+		if !enemy_scene.is_connected("died", _on_enemy_died):
+			enemy_scene.connect("died", _on_enemy_died)
 		
 		create_enemy_dropzone(enemy_scene)
 
-
-func _on_player_died():
-	if is_game_over: return
-	is_game_over = true
-	print("PRZEGRANA!")
-	
-	await get_tree().create_timer(1.0).timeout
-	if game_over_scene_path != "":
-		get_tree().change_scene_to_file(game_over_scene_path)
-	else:
-		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
-
-func _on_enemy_died():
-	if is_game_over: return
-	
-	call_deferred("_check_all_enemies_dead")
-
-func _check_all_enemies_dead():
-	var living_enemies = 0
-	for child in enemy_container.get_children():
-		if not child.is_queued_for_deletion():
-			living_enemies += 1
-			
-	print("Pozostało wrogów: ", living_enemies)
-	
-	if living_enemies == 0:
-		game_won()
-func game_won():
-	if is_game_over: return
-	is_game_over = true
-	print("WYGRANA!")
-
-	if level_file not in PlayerData.completed_levels:
-		PlayerData.completed_levels.append(level_file)
-	PlayerData.save()
-	
-	await get_tree().create_timer(1.0).timeout
-	if win_scene_path != "":
-		get_tree().change_scene_to_file(win_scene_path)
-	else:
-		get_tree().change_scene_to_file("res://scenes/map.tscn")
-
-
-func _on_card_dropped_on_zone(dropzone, card_ui):
-	var card_data = card_ui.card_data
-	var cost = card_data.cost
-	var type = card_data.type
-	var value = card_data.value
-	
-	if not current_player.can_afford(cost):
-		print("Za mało czasu! Potrzebujesz: ", cost)
-		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.hand_pile)
-		return
-
-	var played_successfully = false
-	var target_enemy = null
-	if dropzone.has_meta("enemy"): target_enemy = dropzone.get_meta("enemy")
-	var target_player = null
-	if dropzone.has_meta("player"): target_player = dropzone.get_meta("player")
-
-	match type:
-		"attack":
-			if target_enemy and target_enemy.has_method("lose_time"):
-				target_enemy.lose_time(value)
-				played_successfully = true
-				if SoundManager: SoundManager.play_hit()
-		"defend":
-			if target_player and target_player.has_method("add_block"):
-				target_player.add_block(value)
-				played_successfully = true
-		"draw":
-			card_pile_ui.draw(value)
-			played_successfully = true
-		"heal":
-			if target_player and target_player.has_method("add_time"):
-				target_player.add_time(value)
-				played_successfully = true
-
-	if played_successfully:
-		current_player.spend_time(cost)
-		print("Zagrano kartę. Koszt: ", cost, " Czasu.")
-		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.discard_pile)
-	else:
-		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.hand_pile)
-
+# --- LOGIKA TURY ---
 
 func _on_end_turn_button_pressed():
-	print("--- KONIEC TURY ---")
+	print("--- KONIEC TURY (Przycisk) ---")
+	if is_game_over: return # Nie robimy nic, jeśli gra się skończyła
 	end_turn()
 
 func end_turn():
+	# 1. Odrzuć karty
 	var cards_in_hand = card_pile_ui.get_cards_in_pile(CardPileUI.Piles.hand_pile)
 	for card in cards_in_hand:
 		card_pile_ui.set_card_pile(card, CardPileUI.Piles.discard_pile)
 	
+	# 2. Obrażenia od czasu (Limit czasu)
 	apply_time_damage()
 	
-	if current_player:
-		current_player.block = 0
-	
-	call_deferred("start_turn")
+	# 3. Jeśli gra trwa, zacznij nową turę
+	if not is_game_over:
+		call_deferred("start_turn")
 
 func start_turn():
+	if is_game_over: return
 	print("--- NOWA TURA ---")
 	var current_hand_count = card_pile_ui.get_card_pile_size(CardPileUI.Piles.hand_pile)
 	var cards_to_draw = hand_size - current_hand_count
@@ -180,14 +164,70 @@ func start_turn():
 		card_pile_ui.draw(cards_to_draw)
 
 func apply_time_damage():
-	print("Upływ tury! Czas ucieka (-", time_damage, ")")
+	print("Upływ czasu! (-", time_damage, ")")
 	
 	if is_instance_valid(current_player):
 		current_player.lose_time(time_damage)
 		
+	# Iterujemy po wrogach. Jeśli któryś umrze, wyemituje sygnał died
 	for enemy in enemy_container.get_children():
-		if is_instance_valid(enemy) and enemy.has_method("lose_time"):
-			enemy.lose_time(time_damage)
+		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
+			if enemy.has_method("lose_time"):
+				enemy.lose_time(time_damage)
+
+# --- RESZTA FUNKCJI POMOCNICZYCH (Bez zmian) ---
+
+func create_enemy_dropzone(enemy_node: Node2D):
+	var size_info = _calculate_hitbox_size(enemy_node)
+	var dropzone = _instantiate_dropzone()
+	dropzone.name = "EnemyDropzone"
+	dropzone.set_meta("enemy", enemy_node)
+	dropzone.custom_minimum_size = size_info["size"]
+	dropzone.size = size_info["size"]
+	dropzone.position = -size_info["size"] / 2 + size_info["offset"]
+	dropzone.z_index = 10
+	enemy_node.add_child(dropzone)
+
+func create_player_dropzone(player_node: Node2D):
+	var size_info = _calculate_hitbox_size(player_node)
+	var dropzone = _instantiate_dropzone()
+	dropzone.name = "PlayerDropzone"
+	dropzone.set_meta("player", player_node)
+	dropzone.custom_minimum_size = size_info["size"]
+	dropzone.size = size_info["size"]
+	dropzone.position = -size_info["size"] / 2
+	dropzone.z_index = 10
+	player_node.add_child(dropzone)
+
+func _instantiate_dropzone() -> Control:
+	var dropzone_script = load("res://scripts/centered_dropzone.gd")
+	var dropzone = dropzone_script.new()
+	dropzone.card_pile_ui = card_pile_ui
+	return dropzone
+
+func _calculate_hitbox_size(target_node: Node2D) -> Dictionary:
+	var size = Vector2(100, 100)
+	var offset = Vector2.ZERO
+	var hitbox_area = target_node.get_node_or_null("Hitbox")
+	if not hitbox_area:
+		for child in target_node.get_children():
+			if child is Area2D:
+				hitbox_area = child
+				break
+	if hitbox_area:
+		for child in hitbox_area.get_children():
+			if child is CollisionShape2D and child.shape:
+				var shape = child.shape
+				var shape_size = Vector2.ZERO
+				if shape is RectangleShape2D:
+					shape_size = shape.size
+				elif shape is CircleShape2D:
+					shape_size = Vector2(shape.radius * 2, shape.radius * 2)
+				var total_scale = child.scale * hitbox_area.scale
+				size = shape_size * total_scale
+				offset = child.position * hitbox_area.scale + hitbox_area.position
+				break
+	return {"size": size, "offset": offset}
 
 func setup_card_ui_layout():
 	if not card_pile_ui: return
@@ -224,60 +264,46 @@ func load_level(path: String):
 	var file = FileAccess.open(path, FileAccess.READ)
 	level_data = JSON.parse_string(file.get_as_text())
 
-func _instantiate_dropzone() -> Control:
-	var dropzone_script = load("res://scripts/centered_dropzone.gd")
-	var dropzone = dropzone_script.new()
-	dropzone.card_pile_ui = card_pile_ui
-	return dropzone
+func _on_card_dropped_on_zone(dropzone, card_ui):
+	var card_data = card_ui.card_data
+	var cost = card_data.cost
+	var type = card_data.type
+	var value = card_data.value
+	
+	if not current_player.can_afford(cost):
+		print("Za mało czasu!")
+		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.hand_pile)
+		return
 
-func create_enemy_dropzone(enemy_node: Node2D):
-	var size_info = _calculate_hitbox_size(enemy_node)
-	var final_size = size_info["size"]
-	var center_offset = size_info["offset"]
-	var dropzone = _instantiate_dropzone()
-	dropzone.name = "EnemyDropzone"
-	dropzone.set_meta("enemy", enemy_node)
-	dropzone.custom_minimum_size = final_size
-	dropzone.size = final_size
-	dropzone.position = -final_size / 2 + center_offset
-	dropzone.z_index = 10
-	enemy_node.add_child(dropzone)
+	var played_successfully = false
+	var target_enemy = null
+	if dropzone.has_meta("enemy"): target_enemy = dropzone.get_meta("enemy")
+	var target_player = null
+	if dropzone.has_meta("player"): target_player = dropzone.get_meta("player")
 
-func create_player_dropzone(player_node: Node2D):
-	var size_info = _calculate_hitbox_size(player_node)
-	var final_size = size_info["size"]
-	var dropzone = _instantiate_dropzone()
-	dropzone.name = "PlayerDropzone"
-	dropzone.set_meta("player", player_node)
-	dropzone.custom_minimum_size = final_size
-	dropzone.size = final_size
-	dropzone.position = -final_size / 2
-	dropzone.z_index = 10
-	player_node.add_child(dropzone)
+	match type:
+		"attack":
+			if target_enemy and target_enemy.has_method("lose_time"):
+				target_enemy.lose_time(value)
+				played_successfully = true
+				if SoundManager: SoundManager.play_hit()
+		"defend":
+			if target_player and target_player.has_method("add_block"):
+				target_player.add_block(value)
+				played_successfully = true
+		"draw":
+			card_pile_ui.draw(value)
+			played_successfully = true
+		"heal":
+			if target_player and target_player.has_method("add_time"):
+				target_player.add_time(value)
+				played_successfully = true
 
-func _calculate_hitbox_size(target_node: Node2D) -> Dictionary:
-	var size = Vector2(100, 100)
-	var offset = Vector2.ZERO
-	var hitbox_area = target_node.get_node_or_null("Hitbox")
-	if not hitbox_area:
-		for child in target_node.get_children():
-			if child is Area2D:
-				hitbox_area = child
-				break
-	if hitbox_area:
-		for child in hitbox_area.get_children():
-			if child is CollisionShape2D and child.shape:
-				var shape = child.shape
-				var shape_size = Vector2.ZERO
-				if shape is RectangleShape2D:
-					shape_size = shape.size
-				elif shape is CircleShape2D:
-					shape_size = Vector2(shape.radius * 2, shape.radius * 2)
-				var total_scale = child.scale * hitbox_area.scale
-				size = shape_size * total_scale
-				offset = child.position * hitbox_area.scale + hitbox_area.position
-				break
-	return {"size": size, "offset": offset}
+	if played_successfully:
+		current_player.spend_time(cost)
+		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.discard_pile)
+	else:
+		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.hand_pile)
 
 func _on_button_back():
 	get_tree().change_scene_to_file("res://scenes/map.tscn")

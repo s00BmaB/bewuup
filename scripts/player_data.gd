@@ -1,7 +1,9 @@
 extends Node
 
+# ZMIENNE
 var current_time: int = 360
 var max_time: int = 360
+var gold: int = 0
 
 @export var starting_strikes : int = 5
 @export var starting_defends : int = 5
@@ -14,19 +16,27 @@ var current_map_node: String = ""
 var completed_levels: Array = [] 
 
 func _ready():
+	# Inicjalizacja przy pierwszym uruchomieniu
+	init_starting_deck()
+
+# Nowa funkcja pomocnicza do tworzenia talii startowej
+func init_starting_deck():
+	deck.clear()
 	for i in starting_strikes:
 		deck.append("Strike")
 	for i in starting_defends:
 		deck.append("Defend")
+	# Karty specjalne na start (według Twojego projektu)
 	deck.append("Super Strike")
 	deck.append("Look Into Timelines")
 
 func reset():
 	current_time = max_time
-	deck.clear()
+
 	relics.clear()
 	inventory.clear()
 	completed_levels.clear()
+	init_starting_deck()
 	
 func load():
 	if FileAccess.file_exists("user://savegame.json"):
@@ -35,16 +45,18 @@ func load():
 		if typeof(json) == TYPE_DICTIONARY:
 			current_time = json.get("current_time", 100)
 			max_time = json.get("max_time", 100)
+			gold = json.gold
 			deck = json.deck
 			relics = json.relics
 			inventory = json.inventory
 			current_map_node = json.current_map_node
-			completed_levels = json.get("completed_levels", []) 
+			completed_levels = json.get("completed_levels", [])
 			
 func save():
 	var data = {
 		"current_time": current_time,
 		"max_time": max_time,
+		"gold": gold,
 		"deck": deck,
 		"relics": relics,
 		"inventory": inventory,
