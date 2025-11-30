@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c4oyancw0pbb3"]
 
-[ext_resource type="Script" uid="uid://co2x16ftx83tu" path="res://scripts/comabt.gd" id="1_k8wyi"]
-[ext_resource type="Script" path="res://scripts/end_turn_button.gd" id="7_csq56"]
+[ext_resource type="Script" uid="uid://co2x16ftx83tu" path="res://scripts/combat.gd" id="1_k8wyi"]
+[ext_resource type="Script" uid="uid://dfb2mwv7xrc6d" path="res://scripts/end_turn_button.gd" id="7_csq56"]
 
 [node name="CombatScene" type="Node2D"]
 script = ExtResource("1_k8wyi")
