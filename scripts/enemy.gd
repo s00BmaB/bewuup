@@ -11,8 +11,7 @@ func _ready():
 		$HealthBar.max_value = max_hp
 		$HealthBar.value = hp
 	
-	$Hitbox.mouse_entered.connect(_on_mouse_enter)
-	$Hitbox.mouse_exited.connect(_on_mouse_exit)
+
 	
 
 func take_damage(amount: int):

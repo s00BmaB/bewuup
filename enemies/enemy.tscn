@@ -9,8 +9,10 @@
 script = ExtResource("1_7p1mj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
 position = Vector2(-2.3841858e-07, -2.9802322e-08)
-scale = Vector2(0.15625, 0.15624999)
+scale = Vector2(2, 2)
 texture = ExtResource("2_md0e3")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
