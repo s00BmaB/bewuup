@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://s1r8i8npymdd" path="res://assets/HP.png" id="2_adnpn"]
 
 [node name="Wskazowki" type="Node2D"]
+position = Vector2(99, 77)
 script = ExtResource("1_mhkl7")
 
 [node name="Clock" type="Sprite2D" parent="."]
@@ -19,3 +20,30 @@ default_color = Color(0, 0, 0, 1)
 points = PackedVector2Array(0, 0, 0, -24)
 width = 1.0
 default_color = Color(0.07200841, 8.244798e-05, 0.20816025, 1)
+
+[node name="+" type="Button" parent="."]
+visible = false
+offset_left = 154.5
+offset_top = -98.0
+offset_right = 257.5
+offset_bottom = -67.0
+text = "Add 10 mins"
+
+[node name="-" type="Button" parent="."]
+visible = false
+offset_left = 153.0
+offset_top = -40.75
+offset_right = 255.0
+offset_bottom = -9.75
+text = "Sub 10 mins"
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 161.75
+offset_top = 15.75
+offset_right = 201.75
+offset_bottom = 38.75
+text = "TExt"
+
+[connection signal="pressed" from="+" to="." method="_on_plus_pressed"]
+[connection signal="pressed" from="-" to="." method="_on_minus_pressed"]
