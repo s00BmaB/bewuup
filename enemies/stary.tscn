@@ -1,14 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://nv5usk7tamn8"]
 
 [ext_resource type="Texture2D" uid="uid://ngx4rt1wo1mi" path="res://assets/Stary2.png" id="1_5nhr1"]
-[ext_resource type="Script" uid="uid://bxbdhcilr0dxp" path="res://scripts/enemy.gd" id="2_umu7l"]
+[ext_resource type="Script" uid="uid://bxbdhcilr0dxp" path="res://scripts/enemy.gd" id="1_umu7l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_umu7l"]
+resource_local_to_scene = true
 size = Vector2(152.66667, 313.39584)
 
 [node name="Stary" type="Node2D"]
 position = Vector2(12, -173)
 scale = Vector2(3, 3)
+script = ExtResource("1_umu7l")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
