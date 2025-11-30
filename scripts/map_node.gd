@@ -1,32 +1,45 @@
 extends Node2D
 
-
 @onready var label := $Cont/Label
 @onready var color := $Cont/ColorRect
+@onready var button := $Cont/ColorRect/Button
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	label.text = name   # <- automatycznie wstawia nazwę obiektu
-	# Podłącz sygnał kliknięcia
+var is_locked: bool = false
+var is_completed: bool = false
 
+func _ready():
+	label.text = name
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func set_status(status: String):
+	# Statusy: "locked", "available", "completed"
+	match status:
+		"locked":
+			is_locked = true
+			is_completed = false
+			button.disabled = true
+			color.color = Color.GRAY # Szary dla zablokowanych
+			modulate.a = 0.5
+		"available":
+			is_locked = false
+			is_completed = false
+			button.disabled = false
+			color.color = Color(0, 0, 0.72, 1) # Niebieski (domyślny)
+			modulate.a = 1.0
+		"completed":
+			is_locked = true # Ukończony też blokujemy (nie można powtarzać)
+			is_completed = true
+			button.disabled = true
+			color.color = Color.GREEN # Zielony dla ukończonych
+			modulate.a = 1.0
 
 func _on_button_pressed():
-	# zmiana koloru dla efektu kliknięcia
+	if is_locked: return
+	
 	color.color = Color.RED
-	
-	# nazwa node = "Level1" → tworzymy nazwę pliku JSON: "level1.json"
 	var json_file = "res://levels/%s.json" % name.to_lower()
-	
-	# zapisz level_file w singletonie lub globalnej zmiennej
 	PlayerData.current_map_node = json_file
-	
-	
 	get_tree().change_scene_to_file("res://scenes/combat.tscn")
-	
+
 func _on_button_released():
-	color.color = Color.BLUE
-	
+	if !is_locked:
+		color.color = Color.BLUE

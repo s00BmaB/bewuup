@@ -1,11 +1,12 @@
 extends Node2D
 
+signal died
+
 @export var max_time: int = 720
 var current_time: int = 720
 var block: int = 0
 
 func _ready():
-	# ZMIANA: Pobieramy current_time zamiast hp
 	current_time = PlayerData.current_time
 	max_time = PlayerData.max_time
 	update_time_display()
@@ -15,7 +16,6 @@ func update_time_display():
 		$HealthBar.max_value = max_time
 		$HealthBar.value = current_time
 		
-		# Ustawienie koloru paska na cyjan (czas)
 		var sb = StyleBoxFlat.new()
 		sb.bg_color = Color.CYAN
 		$HealthBar.add_theme_stylebox_override("fill", sb)
@@ -51,11 +51,12 @@ func lose_time(amount: int):
 	
 	if amount > 0:
 		current_time -= amount
-		PlayerData.current_time = current_time # Synchronizacja z PlayerData
+		PlayerData.current_time = current_time 
 		update_time_display()
 		if current_time <= 0:
 			die()
 
 func die():
 	print("Czas się skończył! Game Over.")
+	emit_signal("died") 
 	queue_free()
