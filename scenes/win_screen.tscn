@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://puefrdcmdkkf"]
+
+[ext_resource type="Script" uid="uid://bkvxwr0fh85an" path="res://scripts/win_screen.gd" id="1_wv5lq"]
+
+[node name="WinScreen" type="CanvasLayer"]
+script = ExtResource("1_wv5lq")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(300, 80)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -40.0
+offset_right = 150.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Wygrales
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(300, 80)
+offset_left = 821.0
+offset_top = 632.0
+offset_right = 1121.0
+offset_bottom = 712.0
+text = "Powrót do menu
+"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
