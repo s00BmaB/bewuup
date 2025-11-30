@@ -225,9 +225,9 @@ func _reset_card_collection():
 
 func _ready():
 	var screen_size = get_viewport_rect().size
-	draw_pile_position = Vector2(screen_size.x * 0.2, screen_size.y * 0.7)
-	hand_pile_position = Vector2(screen_size.x / 2, screen_size.y * 0.8)
-	discard_pile_position = Vector2(screen_size.x * 0.8, screen_size.y * 0.7)
+	draw_pile_position = Vector2(screen_size.x * 0.2, screen_size.y * 0.6)
+	hand_pile_position = Vector2(screen_size.x / 2, screen_size.y * 0.7)
+	discard_pile_position = Vector2(screen_size.x * 0.8, screen_size.y * 0.6)
 	size = Vector2.ZERO
 	spread_curve.add_point(Vector2(0, -1), 0, 0, Curve.TANGENT_LINEAR, Curve.TANGENT_LINEAR)
 	spread_curve.add_point(Vector2(1, 1), 0, 0, Curve.TANGENT_LINEAR, Curve.TANGENT_LINEAR)

@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://x47qo222q0xb"]
+[gd_scene load_steps=4 format=3 uid="uid://dnydb6e0hsq6b"]
 
+[ext_resource type="Script" uid="uid://bxbdhcilr0dxp" path="res://scripts/enemy.gd" id="1_nnfwc"]
 [ext_resource type="Texture2D" uid="uid://di0g7q5fsenlx" path="res://assets/Biglem.png" id="1_qaca3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnfwc"]
+resource_local_to_scene = true
 size = Vector2(116, 218.25)
 
 [node name="BigBen" type="Node2D"]
+script = ExtResource("1_nnfwc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
