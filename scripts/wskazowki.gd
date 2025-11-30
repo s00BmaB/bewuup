@@ -12,11 +12,7 @@ func set_time(total_minutes: int):
 	var hours = int(total_minutes / 60) % 12
 	var minutes = total_minutes % 60
 
-	# Kąty:
-	# minuta = 6°
-	# godzina = 30° + (minuty * 0.5°)
-	# odjęcie 90°, bo Godot startuje od osi poziomej (prawej)
-	var minute_angle = deg_to_rad(-(minutes * 6))  # -90, aby 0 minut było na górze (12:00)
+	var minute_angle = deg_to_rad(-(minutes * 6))  
 	var hour_angle = deg_to_rad(-(hours * 30 + minutes * 0.5))
 
 	minute_hand.rotation = minute_angle

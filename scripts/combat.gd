@@ -34,7 +34,6 @@ func _ready():
 	
 	start_turn()
 
-# --- WARUNKI KOŃCOWE ---
 
 func _on_player_died():
 	print("DEBUG: Otrzymano sygnał śmierci gracza.")
@@ -43,7 +42,6 @@ func _on_player_died():
 	
 	print("PRZEGRANA! Przełączam scenę...")
 	
-	# Używamy call_deferred dla 100% pewności, że zmiana nastąpi w bezpiecznym momencie
 	call_deferred("_change_scene_to_game_over")
 
 func _change_scene_to_game_over():
@@ -54,7 +52,6 @@ func _change_scene_to_game_over():
 		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_enemy_died():
-	# Czekamy klatkę (call_deferred), aby upewnić się, że queue_free() zdążyło oznaczyć wroga
 	call_deferred("_check_all_enemies_dead")
 
 func _check_all_enemies_dead():
@@ -62,7 +59,6 @@ func _check_all_enemies_dead():
 	
 	var living_enemies = 0
 	for child in enemy_container.get_children():
-		# Sprawdzamy czy wróg nie jest już "martwy" (zakolejkowany do usunięcia)
 		if not child.is_queued_for_deletion():
 			living_enemies += 1
 	
@@ -77,13 +73,11 @@ func game_won():
 	is_game_over = true
 	
 	print("WYGRANA! Zapisywanie i zmiana sceny...")
-	
-	# Logika zapisu
+
 	if level_file not in PlayerData.completed_levels:
 		PlayerData.completed_levels.append(level_file)
 	PlayerData.save()
-	
-	# Zmiana sceny w trybie deferred
+
 	call_deferred("_change_scene_to_win")
 
 func _change_scene_to_win():
@@ -106,7 +100,6 @@ func spawn_player():
 	
 	current_player = player_scene
 	
-	# Podłączamy sygnał śmierci
 	if !current_player.is_connected("died", _on_player_died):
 		current_player.connect("died", _on_player_died)
 	
@@ -129,7 +122,6 @@ func spawn_enemies():
 		var y = screen_size.y * 0.5
 		enemy_scene.position = Vector2(x, y)
 		
-		# Podłączamy sygnał śmierci
 		if !enemy_scene.is_connected("died", _on_enemy_died):
 			enemy_scene.connect("died", _on_enemy_died)
 		
@@ -139,19 +131,16 @@ func spawn_enemies():
 
 func _on_end_turn_button_pressed():
 	print("--- KONIEC TURY (Przycisk) ---")
-	if is_game_over: return # Nie robimy nic, jeśli gra się skończyła
+	if is_game_over: return 
 	end_turn()
 
 func end_turn():
-	# 1. Odrzuć karty
 	var cards_in_hand = card_pile_ui.get_cards_in_pile(CardPileUI.Piles.hand_pile)
 	for card in cards_in_hand:
 		card_pile_ui.set_card_pile(card, CardPileUI.Piles.discard_pile)
-	
-	# 2. Obrażenia od czasu (Limit czasu)
+
 	apply_time_damage()
 	
-	# 3. Jeśli gra trwa, zacznij nową turę
 	if not is_game_over:
 		call_deferred("start_turn")
 
@@ -170,7 +159,6 @@ func apply_time_damage():
 	if is_instance_valid(current_player):
 		current_player.lose_time(time_damage)
 		
-	# Iterujemy po wrogach. Jeśli któryś umrze, wyemituje sygnał died
 	for enemy in enemy_container.get_children():
 		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion():
 			if enemy.has_method("lose_time"):

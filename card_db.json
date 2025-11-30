@@ -6,7 +6,8 @@
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
 	"value": 10,
-	"cost": 5
+	"cost": 5,
+	"description": "Poświęć 5 minut, aby przyspieszyć wroga o 10 minut"
   },
   {
 	"nice_name": "Defend",
@@ -15,7 +16,8 @@
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "defend",
 	"value": 9,
-	"cost": 5
+	"cost": 5,
+	"description": "Poświęć 5 minut, aby powstrzymać czas na 9 minut"
   },
   {
 	"nice_name": "Look Into Timelines",
@@ -24,7 +26,8 @@
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "draw",
 	"value": 3,
-	"cost": 15
+	"cost": 15,
+	"description": "Poświęć 15 minut, aby dobrać 3 karty"
   },
   {
 	"nice_name": "Super Strike",
@@ -33,6 +36,7 @@
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
 	"cost": 15,
-	"value": 40
+	"value": 40,
+	"description": "Za jedyne 15 minut rozmowy ze śmiercią, przyspiesz wroga o 40 minut"
   }
 ]

@@ -6,7 +6,7 @@ var max_time: int = 360
 var gold: int = 0
 
 @export var starting_strikes : int = 5
-@export var starting_defends : int = 5
+@export var starting_defends : int = 4
 
 var deck: Array = []
 var relics: Array = []

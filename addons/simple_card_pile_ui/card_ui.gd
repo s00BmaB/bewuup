@@ -73,9 +73,26 @@ func _ready():
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	var label_node = frontface.get_node_or_null("Description")
+	label_node.scale = Vector2(1,1)
 	if label_node and card_data:
-		if "value" in card_data:
-			label_node.text = str(card_data.value)
+		# 1. Jeśli wpisaliśmy ręczny opis w JSON (wymaga dodania pola 'description' w skrypcie danych), użyj go
+		#if "description" in card_data and card_data.get("description") != "":
+		#	label_node.text = card_data.description
+			
+		# 2. Jeśli nie ma opisu, wygeneruj go automatycznie na podstawie typu i wartości
+		#elif "type" in card_data and "value" in card_data:
+		if "type" in card_data and "value" in card_data:
+			match card_data.type:
+				"attack": 
+					label_node.text = "Koszt: " + str(card_data.cost) + "\nAtak:" + str(card_data.value)
+				"defend": 
+					label_node.text = "Koszt: " + str(card_data.cost) + "\nBlok: " + str(card_data.value)
+				"draw": 
+					label_node.text = "Koszt: " + str(card_data.cost) + "\nDobierz: " + str(card_data.value)
+				"heal": 
+					label_node.text = "Koszt: " + str(card_data.cost) + "\nLecz: " + str(card_data.value)
+				_:
+					label_node.text = str(card_data.cost) + str(card_data.value)
 
 
 

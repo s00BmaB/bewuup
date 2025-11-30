@@ -7,6 +7,7 @@
 
 [node name="CombatScene" type="Node2D"]
 script = ExtResource("1_k8wyi")
+time_damage = 30
 
 [node name="PlayerSpawn" type="Node2D" parent="."]
 
@@ -15,7 +16,7 @@ script = ExtResource("1_k8wyi")
 [node name="EndTurnButton" type="Button" parent="."]
 offset_right = 156.0
 offset_bottom = 62.0
-text = "End Turn"
+text = "Koniec Tury"
 script = ExtResource("7_csq56")
 
 [node name="CardPileUI" type="Control" parent="."]
