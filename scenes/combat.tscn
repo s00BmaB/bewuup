@@ -29,4 +29,4 @@ json_card_collection_path = "res://deck.json"
 extended_card_ui = ExtResource("2_4l26h")
 metadata/_custom_type_script = "uid://c6qprj5nyk6av"
 
-[connection signal="pressed" from="EndTurnButton" to="." method="_on_button_back"]
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]

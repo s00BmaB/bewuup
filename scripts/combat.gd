@@ -4,20 +4,22 @@ extends Node2D
 @onready var player_spawn := $PlayerSpawn
 @onready var card_pile_ui := $CardPileUI 
 
-# === NOWE ZMIENNE DO KONFIGURACJI ===
-@export var time_damage: int = 60  # Obrażenia od czasu (export do edytora)
-@export var hand_size: int = 5     # Ile kart dobieramy na start tury
+# === ZMIENNE KONFIGURACYJNE ===
+@export var time_damage: int = 60  # Obrażenia zadawane po upływie czasu
+@export var hand_size: int = 5     # Rozmiar ręki (ile kart dobieramy)
 
 var level_data = {}
 var level_file: String = ""
-var current_player: Node2D = null  # Przechowujemy referencję do gracza
+var current_player: Node2D = null
 
 func _ready():
 	setup_card_ui_layout()
 	
+	# Czekamy klatkę na inicjalizację UI
 	await get_tree().process_frame
 	setup_deck()
 	
+	# Ładowanie poziomu
 	level_file = PlayerData.current_map_node
 	if level_file == "":
 		level_file = "res://levels/level1.json"
@@ -28,59 +30,56 @@ func _ready():
 	spawn_player()
 	spawn_enemies()
 	
-	# Podłączenie sygnałów UI kart
+	# Podłączenie sygnału upuszczania kart
 	if card_pile_ui:
 		if !card_pile_ui.card_added_to_dropzone.is_connected(_on_card_dropped_on_zone):
 			card_pile_ui.card_added_to_dropzone.connect(_on_card_dropped_on_zone)
-			
-	# === NA START: Dobieramy pierwszą rękę ===
+	
+	# === START PIERWSZEJ TURY ===
 	start_turn()
 
-# --- Logika Tury ---
+# --- LOGIKA TURY (End Turn, Damage, Draw) ---
 
-# Funkcja podpięta pod przycisk "End Turn"
+# Pamiętaj, aby podłączyć sygnał pressed() z przycisku EndTurnButton do tej funkcji w edytorze!
 func _on_end_turn_button_pressed():
 	print("--- KONIEC TURY ---")
 	end_turn()
 
 func end_turn():
-	# 1. Odrzuć wszystkie karty z ręki
+	# 1. Odrzuć wszystkie karty z ręki na stos odrzuconych
 	var cards_in_hand = card_pile_ui.get_cards_in_pile(CardPileUI.Piles.hand_pile)
 	for card in cards_in_hand:
-		# Przenosimy kartę na stos odrzuconych
 		card_pile_ui.set_card_pile(card, CardPileUI.Piles.discard_pile)
 	
-	# 2. Zadaj obrażenia od czasu WSZYSTKIM (Gracz + Wrogowie)
+	# 2. Zadaj obrażenia od czasu (Gracz + Wrogowie)
 	apply_time_damage()
 	
-	# 3. Rozpocznij nową turę (dobranie kart)
-	# Używamy call_deferred, aby dać czas na animacje odrzucania kart
+	# 3. Rozpocznij nową turę (z lekkim opóźnieniem dla efektu wizualnego)
 	call_deferred("start_turn")
 
 func start_turn():
 	print("--- NOWA TURA ---")
-	# Dobieramy karty, aż ręka będzie pełna (do hand_size)
+	# Sprawdzamy, ile kart brakuje do pełnej ręki
 	var current_hand_count = card_pile_ui.get_card_pile_size(CardPileUI.Piles.hand_pile)
 	var cards_to_draw = hand_size - current_hand_count
 	
 	if cards_to_draw > 0:
-		# Funkcja draw() w CardPileUI automatycznie tasuje stos odrzuconych,
-		# gdy skończy się talia (dzięki opcji shuffle_discard_on_empty_draw=true)
+		# Addon automatycznie przetasuje stos odrzuconych, jeśli w talii braknie kart
 		card_pile_ui.draw(cards_to_draw)
 
 func apply_time_damage():
-	print("Upływ czasu! Wszyscy tracą ", time_damage, " HP.")
+	print("Upływ czasu! Zadawanie ", time_damage, " obrażeń.")
 	
 	# Obrażenia dla gracza
 	if is_instance_valid(current_player) and current_player.has_method("take_damage"):
 		current_player.take_damage(time_damage)
 		
-	# Obrażenia dla wszystkich przeciwników
+	# Obrażenia dla przeciwników
 	for enemy in enemy_container.get_children():
 		if is_instance_valid(enemy) and enemy.has_method("take_damage"):
 			enemy.take_damage(time_damage)
 
-# --- Konfiguracja i Spawnowanie ---
+# --- KONFIGURACJA I SPAWNOWANIE ---
 
 func spawn_player():
 	var screen_size = get_viewport_rect().size
@@ -88,13 +87,10 @@ func spawn_player():
 	player_spawn.add_child(player_scene)
 	player_scene.position = Vector2(200, screen_size.y * 0.5)
 	player_scene.hp = PlayerData.hp
-	
-	# Zapisujemy referencję do gracza, żeby móc mu zadać obrażenia w end_turn
 	current_player = player_scene
 	
+	# Tworzymy dropzone na graczu
 	create_player_dropzone(player_scene)
-
-# ... (RESZTA KODU BEZ ZMIAN: spawn_enemies, create_dropzone, setup_deck itp.) ...
 
 func spawn_enemies():
 	if not level_data.has("enemies"): return
@@ -111,58 +107,66 @@ func spawn_enemies():
 		var x = start_x + i * spacing
 		var y = screen_size.y * 0.5
 		enemy_scene.position = Vector2(x, y)
+		
+		# Ważne: ustawienie Local to Scene w CollisionShape2D wroga pozwoli na unikalne skalowanie
 		create_enemy_dropzone(enemy_scene)
 
-func create_enemy_dropzone(enemy_node: Node2D):
-	# Używamy Twojego nowego skryptu centered_dropzone.gd
+# Funkcja tworząca dropzone przy użyciu nowego, poprawionego skryptu
+func _instantiate_dropzone() -> Control:
+	# Ładujemy Twój nowy skrypt z folderu scripts (nie z addons)
 	var dropzone_script = load("res://scripts/centered_dropzone.gd")
 	var dropzone = dropzone_script.new()
 	dropzone.card_pile_ui = card_pile_ui
-	
-	# Logika obliczania rozmiaru z poprzedniego kroku
+	return dropzone
+
+func create_enemy_dropzone(enemy_node: Node2D):
 	var size_info = _calculate_hitbox_size(enemy_node)
 	var final_size = size_info["size"]
 	var center_offset = size_info["offset"]
 	
+	var dropzone = _instantiate_dropzone()
 	dropzone.name = "EnemyDropzone"
 	dropzone.set_meta("enemy", enemy_node)
 	dropzone.custom_minimum_size = final_size
 	dropzone.size = final_size
+	
+	# Centrowanie względem obliczonego offsetu
 	dropzone.position = -final_size / 2 + center_offset
 	dropzone.z_index = 10
 	
 	enemy_node.add_child(dropzone)
 
 func create_player_dropzone(player_node: Node2D):
-	var dropzone_script = load("res://scripts/centered_dropzone.gd")
-	var dropzone = dropzone_script.new()
-	dropzone.card_pile_ui = card_pile_ui
-	
 	var size_info = _calculate_hitbox_size(player_node)
 	var final_size = size_info["size"]
 	
+	var dropzone = _instantiate_dropzone()
 	dropzone.name = "PlayerDropzone"
 	dropzone.set_meta("player", player_node)
 	dropzone.custom_minimum_size = final_size
 	dropzone.size = final_size
 	dropzone.position = -final_size / 2
 	dropzone.z_index = 10
+	
 	player_node.add_child(dropzone)
 
 func _calculate_hitbox_size(target_node: Node2D) -> Dictionary:
 	var size = Vector2(100, 100)
 	var offset = Vector2.ZERO
+	
 	var hitbox_area = target_node.get_node_or_null("Hitbox")
 	if not hitbox_area:
 		for child in target_node.get_children():
 			if child is Area2D:
 				hitbox_area = child
 				break
+	
 	if hitbox_area:
 		for child in hitbox_area.get_children():
 			if child is CollisionShape2D and child.shape:
 				var shape = child.shape
 				var shape_size = Vector2.ZERO
+				
 				if shape is RectangleShape2D:
 					shape_size = shape.size
 				elif shape is CircleShape2D:
@@ -172,17 +176,22 @@ func _calculate_hitbox_size(target_node: Node2D) -> Dictionary:
 				size = shape_size * total_scale
 				offset = child.position * hitbox_area.scale + hitbox_area.position
 				break
+				
 	return {"size": size, "offset": offset}
+
+# --- RESZTA LOGIKI (bez zmian) ---
 
 func setup_card_ui_layout():
 	if not card_pile_ui: return
 	var screen_size = get_viewport_rect().size
 	var margin_bottom = 150
 	var margin_side = 150
+	
 	card_pile_ui.draw_pile_position = Vector2(margin_side, screen_size.y - margin_bottom)
 	card_pile_ui.hand_pile_position = Vector2(screen_size.x / 2, screen_size.y - 50)
 	card_pile_ui.discard_pile_position = Vector2(screen_size.x - margin_side, screen_size.y - margin_bottom)
 	card_pile_ui.max_hand_spread = 600
+	# Wyłączamy ręczne dobieranie kart kliknięciem
 	card_pile_ui.click_draw_pile_to_draw = false
 
 func setup_deck():
@@ -191,7 +200,6 @@ func setup_deck():
 	for card_name in PlayerData.deck:
 		if card_exists_in_db(card_name):
 			card_pile_ui.create_card_in_pile(card_name, CardPileUI.Piles.draw_pile)
-	# UWAGA: Usunąłem stąd card_pile_ui.draw(5), bo teraz robi to start_turn()
 
 func card_exists_in_db(card_name: String) -> bool:
 	if not card_pile_ui.card_database: return false
@@ -243,6 +251,9 @@ func _on_card_dropped_on_zone(dropzone, card_ui):
 		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.discard_pile)
 	else:
 		card_pile_ui.set_card_pile(card_ui, CardPileUI.Piles.hand_pile)
+
+func _on_button_back():
+	get_tree().change_scene_to_file("res://scenes/map.tscn")
 
 func _process(delta: float) -> void:
 	pass
