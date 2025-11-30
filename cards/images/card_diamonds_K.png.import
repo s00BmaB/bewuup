@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmgllka64lcmr"
-path="res://.godot/imported/back1.png-a6ee7d4472dfcd35a99e5f1760942a21.ctex"
+uid="uid://cn2btcv7e1n3q"
+path="res://.godot/imported/card_diamonds_K.png-2134ae6ccfb044f22ba89b78dec7737e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cards/images/back1.png"
-dest_files=["res://.godot/imported/back1.png-a6ee7d4472dfcd35a99e5f1760942a21.ctex"]
+source_file="res://cards/images/card_diamonds_K.png"
+dest_files=["res://.godot/imported/card_diamonds_K.png-2134ae6ccfb044f22ba89b78dec7737e.ctex"]
 
 [params]
 

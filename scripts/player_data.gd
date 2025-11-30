@@ -18,11 +18,11 @@ var current_map_node: String = ""
 
 func _ready():
 	for i in starting_strikes:
-		deck.append("strike")
+		deck.append("Strike")
 	for i in starting_defends:
-		deck.append("defend")
-	deck.append("super_strike")
-	deck.append("look_into_timelines")
+		deck.append("Defend")
+	deck.append("Super Strike")
+	deck.append("Look Into Timelines")
 	pass
 
 # funkcje pomocnicze

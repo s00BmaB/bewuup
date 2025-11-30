@@ -1,0 +1,38 @@
+[
+  {
+	"nice_name": "Strike",
+	"texture_path": "res://cards/images/card_attack.png",
+	"backface_texture_path": "res://cards/images/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "attack",
+	"value": 10,
+	"cost": 5
+  },
+  {
+	"nice_name": "Defend",
+	"texture_path": "res://cards/images/card_block.png",
+	"backface_texture_path": "res://cards/images/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "defend",
+	"value": 9,
+	"cost": 5
+  },
+  {
+	"nice_name": "Look Into Timelines",
+	"texture_path": "res://cards/images/card_dice.png",
+	"backface_texture_path": "res://cards/images/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "draw",
+	"value": 3,
+	"cost": 15
+  },
+  {
+	"nice_name": "Super Strike",
+	"texture_path": "res://cards/images/cardBack_green2.png",
+	"backface_texture_path": "res://cards/images/back1.png",
+	"resource_script_path": "res://scripts/my_card_data.gd",
+	"type": "attack",
+	"cost": 15,
+	"value": 40
+  }
+]

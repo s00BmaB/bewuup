@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7lgb5bq0ecq6"]
+
+[ext_resource type="Script" path="res://scripts/combat.gd" id="1_k8wyi"]
+[ext_resource type="PackedScene" path="res://scenes/Card.tscn" id="2_4l26h"]
+[ext_resource type="Script" uid="uid://c6qprj5nyk6av" path="res://addons/simple_card_pile_ui/card_pile_ui.gd" id="3_aic3r"]
+[ext_resource type="Script" uid="uid://dfb2mwv7xrc6d" path="res://scripts/end_turn_button.gd" id="7_csq56"]
+
+[node name="CombatScene" type="Node2D"]
+script = ExtResource("1_k8wyi")
+
+[node name="PlayerSpawn" type="Node2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[node name="EndTurnButton" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "End Turn"
+script = ExtResource("7_csq56")
+
+[node name="CardPileUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_aic3r")
+json_card_database_path = "res://card_db.json"
+json_card_collection_path = "res://deck.json"
+extended_card_ui = ExtResource("2_4l26h")
+metadata/_custom_type_script = "uid://c6qprj5nyk6av"
+
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_button_back"]
