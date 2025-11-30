@@ -7,6 +7,7 @@
 
 [node name="CombatScene" type="Node2D"]
 script = ExtResource("1_k8wyi")
+time_damage = 60
 
 [node name="PlayerSpawn" type="Node2D" parent="."]
 

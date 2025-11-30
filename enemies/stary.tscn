@@ -11,6 +11,8 @@ size = Vector2(152.66667, 313.39584)
 position = Vector2(12, -173)
 scale = Vector2(3, 3)
 script = ExtResource("1_umu7l")
+max_time = 240
+current_time = 240
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

@@ -9,6 +9,8 @@ size = Vector2(255.75, 256.125)
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_7p1mj")
+max_time = 180
+current_time = 180
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

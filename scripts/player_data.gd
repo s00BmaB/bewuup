@@ -1,21 +1,16 @@
 extends Node
 
-# podstawowe dane gracza
-var hp: int = 100
-var max_hp: int = 100
+var current_time: int = 360
+var max_time: int = 360
 var gold: int = 0
-var time: int = 720
-var max_time: int = 720
 
 @export var starting_strikes : int = 5
 @export var starting_defends : int = 5
 
-# listy, słowniki, itp.
 var deck: Array = []
 var relics: Array = []
 var inventory: Array = []
 
-# dane o mapie, pozycji, itp.
 var current_map_node: String = ""
 
 func _ready():
@@ -25,11 +20,9 @@ func _ready():
 		deck.append("Defend")
 	deck.append("Super Strike")
 	deck.append("Look Into Timelines")
-	pass
 
-# funkcje pomocnicze
 func reset():
-	hp = max_hp
+	current_time = max_time
 	gold = 0
 	deck.clear()
 	relics.clear()
@@ -40,8 +33,8 @@ func load():
 		var file = FileAccess.open("user://savegame.json", FileAccess.READ)
 		var json = JSON.parse_string(file.get_as_text())
 		if typeof(json) == TYPE_DICTIONARY:
-			hp = json.hp
-			max_hp = json.max_hp
+			current_time = json.get("current_time", 100) 
+			max_time = json.get("max_time", 100)         
 			gold = json.gold
 			deck = json.deck
 			relics = json.relics
@@ -50,8 +43,8 @@ func load():
 			
 func save():
 	var data = {
-		"hp": hp,
-		"max_hp": max_hp,
+		"current_time": current_time, 
+		"max_time": max_time,         
 		"gold": gold,
 		"deck": deck,
 		"relics": relics,

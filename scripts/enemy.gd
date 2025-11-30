@@ -1,36 +1,31 @@
 extends Node2D
 
 @export var enemy_name: String = "Enemy"
-@export var max_hp: int = 20
-@export var hp: int = 20
-@export var damage: int = 5
+@export var max_time: int = 120
+@export var current_time: int = 120
+@export var damage: int = 5 # Obrażenia zadawane graczowi (czyli kradzież czasu)
 
 func _ready():
-	# ustaw pasek HP
 	if $HealthBar:
-		$HealthBar.max_value = max_hp
-		$HealthBar.value = hp
-	
+		$HealthBar.max_value = max_time
+		$HealthBar.value = current_time
 
-	
-
-func take_damage(amount: int):
-	hp -= amount
-	hp = max(hp, 0)
+func lose_time(amount: int):
+	current_time -= amount
+	current_time = max(current_time, 0)
 	
 	if $HealthBar:
-		$HealthBar.value = hp
-	if hp <= 0:
+		$HealthBar.value = current_time
+	
+	if current_time <= 0:
 		die()
 
 func die():
+	print(enemy_name, " pokonany!")
 	queue_free()
-	
 
 func _on_mouse_enter():
-	# np. podświetlenie przeciwnika
-	modulate = Color(1.2, 1.2, 1.2) # jaśniejszy kolor
-
+	modulate = Color(1.2, 1.2, 1.2)
 
 func _on_mouse_exit():
-	modulate = Color(1, 1, 1) # powrót do normalnego wyglądu
+	modulate = Color(1, 1, 1)
