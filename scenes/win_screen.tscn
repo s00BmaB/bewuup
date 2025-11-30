@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://puefrdcmdkkf"]
+[gd_scene load_steps=2 format=3 uid="uid://dy0icg2rt5s3b"]
 
-[ext_resource type="Script" uid="uid://bkvxwr0fh85an" path="res://scripts/win_screen.gd" id="1_wv5lq"]
+[ext_resource type="Script" path="res://scripts/win_screen.gd" id="1_wv5lq"]
 
 [node name="WinScreen" type="CanvasLayer"]
 script = ExtResource("1_wv5lq")

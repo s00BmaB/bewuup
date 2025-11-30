@@ -2,7 +2,6 @@ extends Node
 
 var current_time: int = 360
 var max_time: int = 360
-var gold: int = 0
 
 @export var starting_strikes : int = 5
 @export var starting_defends : int = 5
@@ -12,6 +11,7 @@ var relics: Array = []
 var inventory: Array = []
 
 var current_map_node: String = ""
+var completed_levels: Array = [] 
 
 func _ready():
 	for i in starting_strikes:
@@ -23,33 +23,33 @@ func _ready():
 
 func reset():
 	current_time = max_time
-	gold = 0
 	deck.clear()
 	relics.clear()
 	inventory.clear()
+	completed_levels.clear()
 	
 func load():
 	if FileAccess.file_exists("user://savegame.json"):
 		var file = FileAccess.open("user://savegame.json", FileAccess.READ)
 		var json = JSON.parse_string(file.get_as_text())
 		if typeof(json) == TYPE_DICTIONARY:
-			current_time = json.get("current_time", 100) 
-			max_time = json.get("max_time", 100)         
-			gold = json.gold
+			current_time = json.get("current_time", 100)
+			max_time = json.get("max_time", 100)
 			deck = json.deck
 			relics = json.relics
 			inventory = json.inventory
 			current_map_node = json.current_map_node
+			completed_levels = json.get("completed_levels", []) 
 			
 func save():
 	var data = {
-		"current_time": current_time, 
-		"max_time": max_time,         
-		"gold": gold,
+		"current_time": current_time,
+		"max_time": max_time,
 		"deck": deck,
 		"relics": relics,
 		"inventory": inventory,
-		"current_map_node": current_map_node
+		"current_map_node": current_map_node,
+		"completed_levels": completed_levels
 	}
 	var file = FileAccess.open("user://savegame.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))

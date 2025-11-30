@@ -4,13 +4,16 @@ extends Node2D
 @onready var player_spawn := $PlayerSpawn
 @onready var card_pile_ui := $CardPileUI 
 
-# Konfiguracja
-@export var time_damage: int = 60  # Koszt czasowy za każdą turę (upływ czasu)
+@export var time_damage: int = 10
 @export var hand_size: int = 5
+
+@export_file("*.tscn") var win_scene_path: String = "res://scenes/win_screen.tscn" 
+@export_file("*.tscn") var game_over_scene_path: String = "res://scenes/game_over.tscn" 
 
 var level_data = {}
 var level_file: String = ""
 var current_player: Node2D = null
+var is_game_over: bool = false
 
 func _ready():
 	setup_card_ui_layout()
@@ -21,9 +24,7 @@ func _ready():
 	if level_file == "":
 		level_file = "res://levels/level1.json"
 	
-	print("Loading level: ", level_file)
 	load_level(level_file)
-	
 	spawn_player()
 	spawn_enemies()
 	
@@ -33,7 +34,83 @@ func _ready():
 	
 	start_turn()
 
-# --- LOGIKA KART (Płacenie czasem) ---
+func spawn_player():
+	var screen_size = get_viewport_rect().size
+	var player_scene = load("res://scenes/player.tscn").instantiate()
+	player_spawn.add_child(player_scene)
+	player_scene.position = Vector2(200, screen_size.y * 0.5)
+	
+	player_scene.current_time = PlayerData.current_time
+	player_scene.max_time = PlayerData.max_time
+	
+	current_player = player_scene
+	
+	current_player.connect("died", _on_player_died)
+	
+	create_player_dropzone(player_scene)
+
+func spawn_enemies():
+	if not level_data.has("enemies"): return
+	var screen_size = get_viewport_rect().size
+	var enemy_count = min(level_data["enemies"].size(), 4)
+	var spacing = 250
+	var total_width = (enemy_count - 1) * spacing
+	var start_x = screen_size.x - 200 - total_width
+
+	for i in range(enemy_count):
+		var enemy_info = level_data["enemies"][i]
+		var enemy_scene = load(enemy_info["scene"]).instantiate()
+		enemy_container.add_child(enemy_scene)
+		var x = start_x + i * spacing
+		var y = screen_size.y * 0.5
+		enemy_scene.position = Vector2(x, y)
+
+		enemy_scene.connect("died", _on_enemy_died)
+		
+		create_enemy_dropzone(enemy_scene)
+
+
+func _on_player_died():
+	if is_game_over: return
+	is_game_over = true
+	print("PRZEGRANA!")
+	
+	await get_tree().create_timer(1.0).timeout
+	if game_over_scene_path != "":
+		get_tree().change_scene_to_file(game_over_scene_path)
+	else:
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _on_enemy_died():
+	if is_game_over: return
+	
+	call_deferred("_check_all_enemies_dead")
+
+func _check_all_enemies_dead():
+	var living_enemies = 0
+	for child in enemy_container.get_children():
+		if not child.is_queued_for_deletion():
+			living_enemies += 1
+			
+	print("Pozostało wrogów: ", living_enemies)
+	
+	if living_enemies == 0:
+		game_won()
+func game_won():
+	if is_game_over: return
+	is_game_over = true
+	print("WYGRANA!")
+
+	if level_file not in PlayerData.completed_levels:
+		PlayerData.completed_levels.append(level_file)
+	PlayerData.save()
+	
+	await get_tree().create_timer(1.0).timeout
+	if win_scene_path != "":
+		get_tree().change_scene_to_file(win_scene_path)
+	else:
+		get_tree().change_scene_to_file("res://scenes/map.tscn")
+
 
 func _on_card_dropped_on_zone(dropzone, card_ui):
 	var card_data = card_ui.card_data
@@ -112,18 +189,6 @@ func apply_time_damage():
 		if is_instance_valid(enemy) and enemy.has_method("lose_time"):
 			enemy.lose_time(time_damage)
 
-func spawn_player():
-	var screen_size = get_viewport_rect().size
-	var player_scene = load("res://scenes/player.tscn").instantiate()
-	player_spawn.add_child(player_scene)
-	player_scene.position = Vector2(200, screen_size.y * 0.5)
-	
-	player_scene.current_time = PlayerData.current_time
-	player_scene.max_time = PlayerData.max_time
-	
-	current_player = player_scene
-	create_player_dropzone(player_scene)
-
 func setup_card_ui_layout():
 	if not card_pile_ui: return
 	var screen_size = get_viewport_rect().size
@@ -158,23 +223,6 @@ func load_level(path: String):
 	if !FileAccess.file_exists(path): return
 	var file = FileAccess.open(path, FileAccess.READ)
 	level_data = JSON.parse_string(file.get_as_text())
-
-func spawn_enemies():
-	if not level_data.has("enemies"): return
-	var screen_size = get_viewport_rect().size
-	var enemy_count = min(level_data["enemies"].size(), 4)
-	var spacing = 250
-	var total_width = (enemy_count - 1) * spacing
-	var start_x = screen_size.x - 200 - total_width
-
-	for i in range(enemy_count):
-		var enemy_info = level_data["enemies"][i]
-		var enemy_scene = load(enemy_info["scene"]).instantiate()
-		enemy_container.add_child(enemy_scene)
-		var x = start_x + i * spacing
-		var y = screen_size.y * 0.5
-		enemy_scene.position = Vector2(x, y)
-		create_enemy_dropzone(enemy_scene)
 
 func _instantiate_dropzone() -> Control:
 	var dropzone_script = load("res://scripts/centered_dropzone.gd")

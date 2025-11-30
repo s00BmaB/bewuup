@@ -1,9 +1,11 @@
 extends Node2D
 
+signal died
+
 @export var enemy_name: String = "Enemy"
 @export var max_time: int = 120
 @export var current_time: int = 120
-@export var damage: int = 5 # Obrażenia zadawane graczowi (czyli kradzież czasu)
+@export var damage: int = 5 
 
 func _ready():
 	if $HealthBar:
@@ -22,6 +24,7 @@ func lose_time(amount: int):
 
 func die():
 	print(enemy_name, " pokonany!")
+	emit_signal("died") 
 	queue_free()
 
 func _on_mouse_enter():
