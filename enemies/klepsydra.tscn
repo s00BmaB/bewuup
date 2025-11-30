@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://nv5usk7tamn8"]
+[gd_scene load_steps=4 format=3 uid="uid://jd1vgve76khc"]
 
-[ext_resource type="Texture2D" uid="uid://ngx4rt1wo1mi" path="res://assets/Stary2.png" id="1_5nhr1"]
-[ext_resource type="Script" uid="uid://bxbdhcilr0dxp" path="res://scripts/enemy.gd" id="1_umu7l"]
+[ext_resource type="Script" uid="uid://bxbdhcilr0dxp" path="res://scripts/enemy.gd" id="1_d7hxf"]
+[ext_resource type="Texture2D" uid="uid://d1nhhxv47hrdm" path="res://assets/Sand.png" id="2_ajq0e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_umu7l"]
 resource_local_to_scene = true
 size = Vector2(211.66666, 319.3646)
 
-[node name="Stary" type="Node2D"]
+[node name="Klepsydra" type="Node2D"]
 position = Vector2(12, -173)
 scale = Vector2(3, 3)
-script = ExtResource("1_umu7l")
+script = ExtResource("1_d7hxf")
 max_time = 240
 current_time = 240
 
@@ -19,17 +19,17 @@ texture_filter = 1
 texture_repeat = 2
 position = Vector2(-1, -19.000002)
 scale = Vector2(4, 4)
-texture = ExtResource("1_5nhr1")
+texture = ExtResource("2_ajq0e")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -31.666668
-offset_top = -139.33333
-offset_right = 18.333332
-offset_bottom = -111.33333
+offset_left = -27.333334
+offset_top = -158.0
+offset_right = 22.666666
+offset_bottom = -130.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Hitbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-4.333336, 58.666664)
+position = Vector2(3.1666617, 41.65104)
 shape = SubResource("RectangleShape2D_umu7l")
