@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1frdtulkra67"]
+
+[ext_resource type="Script" uid="uid://r0u4ppsgw3b4" path="res://scripts/wskazowki.gd" id="1_mhkl7"]
+[ext_resource type="Texture2D" uid="uid://s1r8i8npymdd" path="res://assets/HP.png" id="2_adnpn"]
+
+[node name="Wskazowki" type="Node2D"]
+script = ExtResource("1_mhkl7")
+
+[node name="Clock" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_adnpn")
+
+[node name="HourHand" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, -15)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="MinuteHand" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, -24)
+width = 1.0
+default_color = Color(0.07200841, 8.244798e-05, 0.20816025, 1)

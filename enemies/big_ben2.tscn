@@ -8,7 +8,7 @@ resource_local_to_scene = true
 size = Vector2(116, 218.25)
 
 [node name="BigBen" type="Node2D"]
-script = ExtResource("1_nnfwc")
+scale = Vector2(1.5, 1.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
