@@ -12,19 +12,19 @@ width = 4.0
 default_color = Color(0, 0, 0, 1)
 
 [node name="Level1" parent="." instance=ExtResource("2_gldc4")]
-position = Vector2(209, 120)
+position = Vector2(180, 309)
 
 [node name="Level2" parent="." instance=ExtResource("2_gldc4")]
-position = Vector2(1409, 383)
+position = Vector2(470, 366)
 
 [node name="Level3" parent="." instance=ExtResource("2_gldc4")]
-position = Vector2(550, 388)
+position = Vector2(660, 462)
 
 [node name="Level4" parent="." instance=ExtResource("2_gldc4")]
-position = Vector2(1735, 127)
+position = Vector2(956, 376)
 
 [node name="Level5" parent="." instance=ExtResource("2_gldc4")]
-position = Vector2(1087, 586)
+position = Vector2(1357, 558)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -35,7 +35,7 @@ grow_vertical = 2
 color = Color(0.61683375, 0.4178, 0.20944148, 1)
 
 [node name="Enemy" parent="." instance=ExtResource("3_gldc4")]
-position = Vector2(1547, 623)
+position = Vector2(1742.0001, 711)
 scale = Vector2(10, 10)
 
 [node name="ExitButton" type="Button" parent="."]
