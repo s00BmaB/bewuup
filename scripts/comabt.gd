@@ -12,6 +12,7 @@ func _ready():
 	load_level(level_file)
 	spawn_player()
 	spawn_enemies()
+	SoundManager.play_music()
 
 func load_level(path: String):
 	if !FileAccess.file_exists(path):
@@ -57,6 +58,7 @@ func spawn_player():
 	
 func _on_button_back():
 	get_tree().change_scene_to_file("res://scenes/map.tscn")
+	SoundManager.stop_music()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
