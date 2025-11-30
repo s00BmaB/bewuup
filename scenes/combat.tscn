@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://csa30osvcqhf0"]
+[gd_scene load_steps=6 format=3 uid="uid://csa30osvcqhf0"]
 
 [ext_resource type="Script" uid="uid://b5ny7ri7bnffv" path="res://scripts/combat.gd" id="1_k8wyi"]
-[ext_resource type="PackedScene" uid="uid://ccy3mr1stpq5x" path="res://scenes/Card.tscn" id="2_4l26h"]
+[ext_resource type="PackedScene" path="res://scenes/Card.tscn" id="2_4l26h"]
 [ext_resource type="Script" uid="uid://c6qprj5nyk6av" path="res://addons/simple_card_pile_ui/card_pile_ui.gd" id="3_aic3r"]
+[ext_resource type="PackedScene" uid="uid://d1frdtulkra67" path="res://scenes/wskazowki.tscn" id="5_p71o4"]
 [ext_resource type="Script" uid="uid://dfb2mwv7xrc6d" path="res://scripts/end_turn_button.gd" id="7_csq56"]
 
 [node name="CombatScene" type="Node2D"]
@@ -28,5 +29,9 @@ json_card_database_path = "res://card_db.json"
 json_card_collection_path = "res://deck.json"
 extended_card_ui = ExtResource("2_4l26h")
 metadata/_custom_type_script = "uid://c6qprj5nyk6av"
+
+[node name="Wskazowki" parent="." instance=ExtResource("5_p71o4")]
+position = Vector2(194, 177)
+scale = Vector2(5, 5)
 
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]

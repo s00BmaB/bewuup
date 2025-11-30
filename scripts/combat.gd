@@ -99,8 +99,8 @@ func spawn_player():
 	var screen_size = get_viewport_rect().size
 	var player_scene = load("res://scenes/player.tscn").instantiate()
 	player_spawn.add_child(player_scene)
-	player_scene.position = Vector2(200, screen_size.y * 0.5)
-	
+	player_scene.position = Vector2(200, screen_size.y * 0.65)
+	player_scene.scale = Vector2(3,3)
 	player_scene.current_time = PlayerData.current_time
 	player_scene.max_time = PlayerData.max_time
 	
@@ -123,6 +123,7 @@ func spawn_enemies():
 	for i in range(enemy_count):
 		var enemy_info = level_data["enemies"][i]
 		var enemy_scene = load(enemy_info["scene"]).instantiate()
+		enemy_scene.scale = Vector2(1.25,1.25)
 		enemy_container.add_child(enemy_scene)
 		var x = start_x + i * spacing
 		var y = screen_size.y * 0.5

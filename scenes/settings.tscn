@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdddocpa6b1t1"]
+[gd_scene load_steps=3 format=3 uid="uid://cdddocpa6b1t1"]
 
 [ext_resource type="Script" uid="uid://dnjfievbkvew3" path="res://scripts/game.gd" id="1_5p8wc"]
+[ext_resource type="Texture2D" uid="uid://cklqssigs0oes" path="res://assets/Under_construction.jpg" id="2_r6d6q"]
 
 [node name="settings" type="Control"]
 layout_mode = 3
@@ -13,16 +14,24 @@ script = ExtResource("1_5p8wc")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 772.0
+offset_top = 69.0
+offset_right = 1175.0
+offset_bottom = 154.0
 text = "Ustawienia"
+horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 31.0
-offset_right = 69.0
-offset_bottom = 62.0
+offset_left = 954.0
+offset_top = 909.0
+offset_right = 1059.0
+offset_bottom = 965.0
 text = "Powrót"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(985.00006, 507)
+scale = Vector2(1.9615384, 1.9551282)
+texture = ExtResource("2_r6d6q")
 
 [connection signal="pressed" from="Button" to="." method="_on_exit_button_pressed"]
