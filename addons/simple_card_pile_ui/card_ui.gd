@@ -10,7 +10,8 @@ signal card_dropped(card: CardUI)
 
 @onready var frontface = $Frontface
 @onready var backface = $Backface
-
+@onready var icon_texture = $Frontface/Icon 
+@onready var description_label = $Frontface/Description
 
 @export var card_data : CardUIData
 
@@ -49,12 +50,28 @@ func _ready():
 	connect("mouse_entered", _on_mouse_enter)
 	connect("mouse_exited", _on_mouse_exited)
 	connect("gui_input", _on_gui_input)
-	if frontface_texture:
-		frontface.texture = load(frontface_texture)
+	
+	var base_texture = load("res://assets/Averse2.png")
+	frontface.texture = base_texture
+
+	if backface_texture:
 		backface.texture = load(backface_texture)
-		custom_minimum_size = frontface.texture.get_size()
-		pivot_offset = frontface.texture.get_size() / 2
-		mouse_filter = Control.MOUSE_FILTER_PASS
+
+	if frontface_texture:
+		var icon_node = frontface.get_node_or_null("Icon")
+		if icon_node:
+			icon_node.texture = load(frontface_texture)
+		else:
+			push_error("Brak węzła 'Icon' w scenie CardUI! Dodaj TextureRect jako dziecko Frontface.")
+
+	custom_minimum_size = base_texture.get_size()
+	pivot_offset = base_texture.get_size() / 2
+	mouse_filter = Control.MOUSE_FILTER_PASS
+
+	var label_node = frontface.get_node_or_null("Description")
+	if label_node and card_data:
+		if "value" in card_data:
+			label_node.text = str(card_data.value)
 
 
 
@@ -62,10 +79,8 @@ func _card_can_be_interacted_with():
 	var parent = get_parent()
 	var valid = false
 	if parent is CardPileUI:
-		# check for cards in hand
 		if parent.is_card_ui_in_hand(self):
 			valid = parent.is_hand_enabled() and not parent.is_any_card_ui_clicked()
-		# check for cards in dropzone
 		var dropzone = parent.get_card_dropzone(self)
 		if dropzone:
 			valid = dropzone.get_top_card() == self and not parent.is_any_card_ui_clicked()
@@ -74,7 +89,6 @@ func _card_can_be_interacted_with():
 
 
 func _on_mouse_enter():
-	#check if is hovering should be turned on
 	if _card_can_be_interacted_with():
 		mouse_is_hovering = true
 		target_position.y -= hover_distance

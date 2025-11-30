@@ -2,7 +2,7 @@
   {
 	"nice_name": "Strike",
 	"texture_path": "res://assets/Hammer.png",
-	"backface_texture_path": "res://assets/Rewers.png",
+	"backface_texture_path": "res://assets/Reverse2.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
 	"value": 10,
@@ -11,7 +11,7 @@
   {
 	"nice_name": "Defend",
 	"texture_path": "res://assets/Defens.png",
-	"backface_texture_path": "res://assets/Rewers.png",
+	"backface_texture_path": "res://assets/Reverse2.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "defend",
 	"value": 9,
@@ -20,7 +20,7 @@
   {
 	"nice_name": "Look Into Timelines",
 	"texture_path": "res://assets/TakeCard.png",
-	"backface_texture_path": "res://assets/Rewers.png",
+	"backface_texture_path": "res://assets/Reverse2.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "draw",
 	"value": 3,
@@ -29,7 +29,7 @@
   {
 	"nice_name": "Super Strike",
 	"texture_path": "res://assets/Ult.png",
-	"backface_texture_path": "res://assets/Rewers.png",
+	"backface_texture_path": "res://assets/Reverse2.png",
 	"resource_script_path": "res://scripts/my_card_data.gd",
 	"type": "attack",
 	"cost": 15,

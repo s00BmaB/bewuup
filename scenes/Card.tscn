@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccy3mr1stpq5x"]
+[gd_scene load_steps=3 format=3 uid="uid://ccy3mr1stpq5x"]
 
 [ext_resource type="Script" uid="uid://dj5mbr34ee2bh" path="res://addons/simple_card_pile_ui/card_ui.gd" id="1_yiag5"]
+[ext_resource type="Texture2D" uid="uid://cq38tr3k0do84" path="res://cards/images/card_empty.png" id="2_tgmmg"]
 
 [node name="CardUI" type="Control"]
+texture_filter = 5
 layout_mode = 3
 anchors_preset = 0
 offset_right = 45.0
@@ -15,8 +17,28 @@ layout_mode = 0
 offset_right = 45.0
 offset_bottom = 64.0
 scale = Vector2(2, 2)
+texture = ExtResource("2_tgmmg")
+
+[node name="Icon" type="TextureRect" parent="Frontface"]
+layout_mode = 0
+offset_left = 6.5
+offset_top = 6.0
+offset_right = 38.5
+offset_bottom = 38.0
+stretch_mode = 3
+
+[node name="Description" type="RichTextLabel" parent="Frontface"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 45.0
+offset_bottom = 64.0
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Backface" type="TextureRect" parent="."]
+texture_filter = 5
 layout_mode = 0
 offset_right = 45.0
 offset_bottom = 64.0
