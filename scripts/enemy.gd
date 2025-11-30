@@ -8,16 +8,26 @@ signal died
 @export var damage: int = 5 
 
 func _ready():
-	if $HealthBar:
-		$HealthBar.max_value = max_time
-		$HealthBar.value = current_time
+	# Inicjalizacja zegara na start
+	if has_node("Wskazowki"):
+		$Wskazowki.set_time(current_time)
+
+	# Stary kod paska (do usunięcia/zakomentowania):
+	# if $HealthBar:
+	# 	$HealthBar.max_value = max_time
+	# 	$HealthBar.value = current_time
 
 func lose_time(amount: int):
 	current_time -= amount
 	current_time = max(current_time, 0)
 	
-	if $HealthBar:
-		$HealthBar.value = current_time
+	# Aktualizacja zegara po otrzymaniu obrażeń
+	if has_node("Wskazowki"):
+		$Wskazowki.set_time(current_time)
+	
+	# Stary kod paska (do usunięcia/zakomentowania):
+	# if $HealthBar:
+	# 	$HealthBar.value = current_time
 	
 	if current_time <= 0:
 		die()

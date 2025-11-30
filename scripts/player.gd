@@ -12,13 +12,14 @@ func _ready():
 	update_time_display()
 
 func update_time_display():
-	if $HealthBar:
-		$HealthBar.max_value = max_time
-		$HealthBar.value = current_time
-		
-		var sb = StyleBoxFlat.new()
-		sb.bg_color = Color.CYAN
-		$HealthBar.add_theme_stylebox_override("fill", sb)
+	# Jeśli masz w scenie instancję o nazwie "Wskazowki":
+	if has_node("Wskazowki"):
+		$Wskazowki.set_time(current_time)
+	
+	# Stary kod paska (do usunięcia/zakomentowania):
+	# if $HealthBar:
+	# 	$HealthBar.max_value = max_time
+	# 	$HealthBar.value = current_time
 
 func add_block(amount: int):
 	block += amount

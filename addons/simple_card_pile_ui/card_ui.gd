@@ -51,23 +51,35 @@ func _ready():
 	connect("mouse_exited", _on_mouse_exited)
 	connect("gui_input", _on_gui_input)
 	
+	# --- DEFINICJA SKALI ---
+	var card_scale = Vector2(2, 2) # Skalujemy wszystko x2
+	
+	# 1. Ładowanie BAZY (pusty awers 45x64)
 	var base_texture = load("res://assets/Averse2.png")
 	frontface.texture = base_texture
-
+	frontface.scale = card_scale # Powiększamy wizualnie przód (i jego dzieci: Icon, Label)
+	
+	# 2. Ładowanie REWERSU
 	if backface_texture:
 		backface.texture = load(backface_texture)
-
+		backface.scale = card_scale # Powiększamy wizualnie tył
+	
+	# 3. Ładowanie IKONY do podrzędnego węzła
 	if frontface_texture:
 		var icon_node = frontface.get_node_or_null("Icon")
 		if icon_node:
 			icon_node.texture = load(frontface_texture)
-		else:
-			push_error("Brak węzła 'Icon' w scenie CardUI! Dodaj TextureRect jako dziecko Frontface.")
-
-	custom_minimum_size = base_texture.get_size()
-	pivot_offset = base_texture.get_size() / 2
+			# Pozycja (6, 2) wewnątrz Frontface zostanie automatycznie 
+			# przeskalowana na (12, 4) na ekranie dzięki frontface.scale
+	
+	# 4. Ustawienie logicznego rozmiaru karty (dla układania w ręce)
+	# Mnożymy oryginalny rozmiar tekstury (45x64) przez skalę (2x2) -> Wynik: 90x128
+	custom_minimum_size = base_texture.get_size() * card_scale
+	pivot_offset = (base_texture.get_size() * card_scale) / 2
+	
 	mouse_filter = Control.MOUSE_FILTER_PASS
-
+	
+	# Obsługa tekstu
 	var label_node = frontface.get_node_or_null("Description")
 	if label_node and card_data:
 		if "value" in card_data:

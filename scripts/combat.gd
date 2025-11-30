@@ -236,7 +236,7 @@ func setup_card_ui_layout():
 	var margin_bottom = 150
 	var margin_side = 150
 	card_pile_ui.draw_pile_position = Vector2(margin_side, screen_size.y - margin_bottom)
-	card_pile_ui.hand_pile_position = Vector2(screen_size.x / 2, screen_size.y - 50)
+	card_pile_ui.hand_pile_position = Vector2(screen_size.x / 2, screen_size.y - 200)
 	card_pile_ui.discard_pile_position = Vector2(screen_size.x - margin_side, screen_size.y - margin_bottom)
 	card_pile_ui.max_hand_spread = 600
 	card_pile_ui.click_draw_pile_to_draw = false
