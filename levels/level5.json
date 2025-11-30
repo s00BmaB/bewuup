@@ -1,5 +1,5 @@
 {
   "enemies": [
-	{"scene": "res://enemies/big_ben.tscn"},
+	{"scene": "res://enemies/big_ben2.tscn"},
   ]
 }

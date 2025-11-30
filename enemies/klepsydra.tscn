@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkbw855myocm5"]
-
-[ext_resource type="PackedScene" uid="uid://denebhmiatmje" path="res://enemies/enemy.tscn" id="1_phtug"]
-
-[node name="Klepsydra" instance=ExtResource("1_phtug")]
