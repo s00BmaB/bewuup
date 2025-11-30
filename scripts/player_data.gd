@@ -4,6 +4,8 @@ extends Node
 var hp: int = 100
 var max_hp: int = 100
 var gold: int = 0
+var time: int = 720
+var max_time: int = 720
 
 @export var starting_strikes : int = 5
 @export var starting_defends : int = 5
